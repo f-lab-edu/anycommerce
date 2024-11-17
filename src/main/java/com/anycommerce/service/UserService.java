@@ -14,16 +14,29 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public Long save(SignUpRequestDto dto){
+    public void save(SignUpRequestDto dto){
         Address address = new Address(dto.getAddress().getZipcode(), dto.getAddress().getStreetAdr(), dto.getAddress().getDetailAdr());
-        return userRepository.save(User.builder()
+//        return userRepository.save(User.builder()
+//                .userId(dto.getUserId())
+//                .password((bCryptPasswordEncoder.encode(dto.getPassword())))
+//                .username(dto.getUsername())
+//                .address(address)
+//                .email(dto.getEmail())
+//                .phoneNumber(dto.getPhoneNumber())
+//                .build()).getId();
+
+
+        User user = User.builder()
                 .userId(dto.getUserId())
-                .password((bCryptPasswordEncoder.encode(dto.getPassword())))
+                .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .username(dto.getUsername())
-                .address(address)
                 .email(dto.getEmail())
                 .phoneNumber(dto.getPhoneNumber())
-                .build()).getId();
+                .address(address)
+                .build();
+
+        userRepository.save(user);
+
     }
 
 
