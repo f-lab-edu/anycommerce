@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+// 각각 API 만들고 정리할 예정
+
 @RequiredArgsConstructor
 @Controller
 public class UserApiController {
@@ -20,7 +22,7 @@ public class UserApiController {
 //        return "redirect:/login"; // 회원가입 후 로그인 페이지로 리디렉션
 //    }
 
-    // 2. JSON 요청 처리 (Postman을 통한 REST API 요청 처리)
+    // 2. JSON 요청 처리 (Postman을 통한 REST API 요청 처리) -> 사실상 이게 유저 정보 등록.
     @PostMapping("/api/register")
     public ResponseEntity<String> registerUser(@RequestBody SignUpRequestDto request) {
         try {
@@ -59,11 +61,7 @@ public class UserApiController {
 
 
 
-
-
-
-
-    // 회원 가입 버튼 누르기
+    // 회원 가입 버튼 누르기 -> 이미 위에 있음
     @GetMapping("/signup")
     public void userSubmit(){
 

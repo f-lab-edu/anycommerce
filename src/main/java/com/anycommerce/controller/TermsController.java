@@ -23,4 +23,6 @@ public class TermsController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 약관이 없습니다."));
     }
 
+
+
 }

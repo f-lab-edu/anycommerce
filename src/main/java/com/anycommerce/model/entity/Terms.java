@@ -1,9 +1,7 @@
 package com.anycommerce.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,5 +13,12 @@ public class Terms {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String content; // 약관 내용
+
+    @Column(nullable = false)
+    private String version;
+
+    @Column(nullable = false)
+    private boolean isRequired;
 }
