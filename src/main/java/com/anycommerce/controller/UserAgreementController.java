@@ -26,7 +26,7 @@ public class UserAgreementController {
             return ResponseEntity.ok("약관 동의가 성공적으로 저장되었습니다.");
         } catch (Exception e) {
             // 약관 동의 저장 중 오류 발생 Exception.
-            return ResponseEntity.badRequest().body("약관 동의 저장 중 오류 발생 : " + e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

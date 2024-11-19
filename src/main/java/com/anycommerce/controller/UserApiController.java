@@ -62,10 +62,10 @@ public class UserApiController {
 
 
     // 회원 가입 버튼 누르기 -> 이미 위에 있음
-    @GetMapping("/signup")
-    public void userSubmit(){
-
-    }
+//    @GetMapping("/api/signup")
+//    public void userSubmit(){
+//
+//    }
 
 
 
