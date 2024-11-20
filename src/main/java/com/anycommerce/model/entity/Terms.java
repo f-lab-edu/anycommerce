@@ -12,6 +12,10 @@ public class Terms {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 약관 제목
+    @Column(nullable = false)
+    private String title;
+
     // 약관 내용
     @Column(nullable = false)
     private String content;
