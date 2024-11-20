@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS terms;
 INSERT INTO terms (title, content, is_required, version)
 VALUES
     ('이용약관 동의', '서비스 이용에 대한 약관입니다.', 1, '1.0'),

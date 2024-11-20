@@ -1,10 +1,8 @@
 package com.anycommerce.controller;
 
 import com.anycommerce.model.entity.Terms;
-import com.anycommerce.repository.TermsRepository;
 import com.anycommerce.service.TermsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
