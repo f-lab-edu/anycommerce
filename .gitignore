@@ -24,6 +24,7 @@ tmp/
 *.bak
 *.swp
 *~.nib
+*.properties
 local.properties
 application.properties
 .settings/
