@@ -54,6 +54,11 @@ public class User implements UserDetails {
     @Pattern(regexp = "^[0-9]{10,11}$", message = "핸드폰 번호는 10~11자리의 숫자만 가능합니다.")
     private String phoneNumber;
 
+    @Column
+    @NotBlank
+    private boolean isVerified;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("user"));
