@@ -40,13 +40,13 @@ public class VerificationCodeController {
             @RequestParam String phoneNumber,
             @RequestParam String randomKey
     ){
-        boolean isVerifed = verificationCodeService.verifyCode(phoneNumber, randomKey);
+        boolean isVerified = verificationCodeService.verifyCode(phoneNumber, randomKey);
 
         // DB에서 전화번호를 이용해서 randomKey 값을 조회
         // 파라미터의 randomKey와 DB에 저장된 randomKey가 일치하는지 확인
         // 랜덤키값을 만들고 DB에 저장해둔다. 그걸 FE에 반환
 
-        if (isVerifed) {
+        if (isVerified) {
             return ResponseEntity.ok("인증 되었습니다.");
         } else {
             return ResponseEntity.badRequest().body("잘못된 인증번호입니다.");
