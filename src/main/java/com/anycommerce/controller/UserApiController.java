@@ -2,6 +2,8 @@ package com.anycommerce.controller;
 
 import com.anycommerce.model.dto.SignUpRequestDto;
 import com.anycommerce.service.UserService;
+import jakarta.security.auth.message.callback.PasswordValidationCallback;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +36,22 @@ public class UserApiController {
 
     /*   Controller 만들어보기  */
 
+    // 3 비밀번호 확인
+    @PostMapping("/api/validate-password")
+    public ResponseEntity<String> validatePassword(@RequestBody PasswordValidationRequest request) {
+        if (!request.getPassword().equals(request.getConfirmPassword())){
+            return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다.");
+        }
+        return ResponseEntity.ok("비밀번호가 일치합니다.");
+    }
 
 
 
-
+    @Data
+    public static class PasswordValidationRequest{
+        private String password;
+        private String confirmPassword;
+    }
 
 }
 
