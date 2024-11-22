@@ -36,7 +36,7 @@ public class UserApiController {
 
     /*   Controller 만들어보기  */
 
-    // 3 비밀번호 확인
+    // 3. 비밀번호 확인
     @PostMapping("/api/validate-password")
     public ResponseEntity<String> validatePassword(@RequestBody PasswordValidationRequest request) {
         if (!request.getPassword().equals(request.getConfirmPassword())){
