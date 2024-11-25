@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class MessageDTO {
+public class MessageDto {
     String to;
     String Content;
 }

@@ -2,7 +2,6 @@ package com.anycommerce.controller;
 
 import com.anycommerce.model.dto.SignUpRequestDto;
 import com.anycommerce.service.UserService;
-import jakarta.security.auth.message.callback.PasswordValidationCallback;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,19 +9,52 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RequiredArgsConstructor
 @Controller
 public class UserApiController {
+
     private final UserService userService;
 
-    // 1. HTML Form 요청 처리 (기존 동작 유지)
+    // 중복 체크 타입 변환
+    private static final Map<String, String> TYPE_TO_KR = Map.of(
+            "userId","아이디",
+            "email","이메일",
+            "phoneNumber","전화번호"
+    );
+
+    // 1. HTML Form 요청 처리 (기존 View 페이지 이동)
     @PostMapping("/user")
     public String signup(SignUpRequestDto request) {
         userService.save(request);
         return "redirect:/login"; // 회원가입 후 로그인 페이지로 리디렉션
     }
 
-    // 2. JSON 요청 처리 (Postman을 통한 REST API 요청 처리) -> 유저 정보 등록.
+    // 2. ID 중복 체크
+    @GetMapping("/check-id")
+    public ResponseEntity<String> checkUserId(@RequestParam String userId) {
+        boolean isDuplicate = userService.checkUserIdDuplicate(userId);
+
+        if (isDuplicate) {
+            return ResponseEntity.badRequest().body("이미 사용중인 아이디입니다.");
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    // 3. 이메일 중복 체크
+    @GetMapping("/check-email")
+    public ResponseEntity<String> checkEmail(@RequestParam String email) {
+        boolean isDuplicate = userService.checkEmailDuplicate(email);
+
+        if (isDuplicate) {
+            return ResponseEntity.badRequest().body("이미 사용중인 이메일입니다.");
+        }
+        return ResponseEntity.ok().build();
+    }
+
+
+    // *. 최종 등록. -> 최종 엔티티 본으로 수정해야 함.
     @PostMapping("/api/register")
     public ResponseEntity<String> registerUser(@RequestBody SignUpRequestDto request) {
         try {
@@ -34,16 +66,8 @@ public class UserApiController {
         }
     }
 
-    /*   Controller 만들어보기  */
 
-    // 3. 비밀번호 확인
-    @PostMapping("/api/validate-password")
-    public ResponseEntity<String> validatePassword(@RequestBody PasswordValidationRequest request) {
-        if (!request.getPassword().equals(request.getConfirmPassword())){
-            return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다.");
-        }
-        return ResponseEntity.ok("비밀번호가 일치합니다.");
-    }
+
 
 
 

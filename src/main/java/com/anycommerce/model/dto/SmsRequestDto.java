@@ -2,11 +2,11 @@ package com.anycommerce.model.dto;
 
 import java.util.List;
 
-public class SmsRequestDTO {
+public class SmsRequestDto {
     String type;
     String contentType;
     String countryCode;
     String from;
     String content;
-    List<MessageDTO> messages;
+    List<MessageDto> messages;
 }
