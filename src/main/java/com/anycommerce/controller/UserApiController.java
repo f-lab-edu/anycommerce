@@ -67,10 +67,6 @@ public class UserApiController {
     }
 
 
-
-
-
-
     @Data
     public static class PasswordValidationRequest{
         private String password;

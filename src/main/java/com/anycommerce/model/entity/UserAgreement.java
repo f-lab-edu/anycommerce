@@ -11,31 +11,23 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserAgreement {
+public class UserAgreement extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    // User와 다대일 관계 설정
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false)
-    private boolean requiredTerm;
+    // Terms와 다대일 관계 설정
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name= "terms_id", nullable = false)
+    private Terms terms;
 
     @Column(nullable = false)
-    private boolean optionalTerm1;
+    private boolean agreed;
 
-    @Column(nullable = false)
-    private boolean optionalTerm2;
-
-    @Column(nullable = true)
-    private Boolean smsConsent; // SMS 동의 여부 (마케팅 약관 동의 시만 설정)
-
-    @Column(nullable = true)
-    private Boolean emailConsent; // Email 동의 여부 (마케팅 약관 동의 시만 설정)
-
-    @Column(nullable = false)
-    private LocalDateTime agreedAt;
 }

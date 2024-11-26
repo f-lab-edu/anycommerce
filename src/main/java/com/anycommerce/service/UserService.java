@@ -1,7 +1,6 @@
 package com.anycommerce.service;
 
 import com.anycommerce.model.dto.SignUpRequestDto;
-import com.anycommerce.model.entity.Address;
 import com.anycommerce.model.entity.User;
 import com.anycommerce.repository.UserRepository;
 import lombok.Builder;
@@ -17,7 +16,6 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void save(SignUpRequestDto dto){
-        Address address = new Address(dto.getAddress().getZipcode(), dto.getAddress().getStreetAdr(), dto.getAddress().getDetailAdr());
 
         User user = User.builder()
                 .userId(dto.getUserId())
@@ -25,7 +23,9 @@ public class UserService {
                 .username(dto.getUsername())
                 .email(dto.getEmail())
                 .phoneNumber(dto.getPhoneNumber())
-                .address(address)
+                .zipcode(dto.getZipcode())
+                .streetAddress(dto.getStreetAddress())
+                .detailAddress(dto.getDetailAddress())
                 .build();
 
         userRepository.save(user);
