@@ -31,13 +31,13 @@ public class User extends AbstractEntity implements UserDetails {
     @Column(nullable = false)
     private String password; // 비밀번호
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username; // 사용자 이름
 
     @Column(nullable = false, unique = true)
     private String email; // 이메일 주소
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String phoneNumber; // 전화번호
 
     // 주소 관련 필드

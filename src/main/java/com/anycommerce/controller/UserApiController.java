@@ -13,16 +13,10 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/api/users")
 public class UserApiController {
 
     private final UserService userService;
-
-    // 중복 체크 타입 변환
-    private static final Map<String, String> TYPE_TO_KR = Map.of(
-            "userId","아이디",
-            "email","이메일",
-            "phoneNumber","전화번호"
-    );
 
     // 1. HTML Form 요청 처리 (기존 View 페이지 이동)
     @PostMapping("/user")
@@ -35,6 +29,7 @@ public class UserApiController {
     @GetMapping("/check-id")
     public ResponseEntity<String> checkUserId(@RequestParam String userId) {
         boolean isDuplicate = userService.checkUserIdDuplicate(userId);
+        System.out.println("Checking userId: " + userId + ", isDuplicate: " + isDuplicate);
 
         if (isDuplicate) {
             return ResponseEntity.badRequest().body("이미 사용중인 아이디입니다.");
