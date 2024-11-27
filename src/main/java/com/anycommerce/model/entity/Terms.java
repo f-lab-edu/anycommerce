@@ -27,4 +27,8 @@ public class Terms extends AbstractEntity{
     // 필수 여부
     @Column(nullable = false)
     private boolean isRequired;
+
+    // 활성/비활성 상태 추가
+    @Column(nullable = false)
+    private boolean isActive = true; // 기본값: 활성 상태
 }

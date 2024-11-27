@@ -6,7 +6,9 @@ import com.anycommerce.repository.TermsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -16,28 +18,30 @@ public class TermsService {
     private final TermsRepository termsRepository;
 
 
-    // 1. 최신 약관 제목과 필수 여부만 반환 + 신규로 발생가능한 약관 처리
+    // 1. 최신 약관 제목과 필수 여부만 반환 + 신규로 발생가능한 약관 처리 + 활성화된 약관들만 수집
     public List<TermsTitleResponse> getLatestTermsTitles() {
 
-        List<Terms> latestTerms = termsRepository.findLatestTerms();
+        // 최신 활성화된 약관 조회
+        List<Terms> latestActiveTerms = termsRepository.findLatestActiveTerms();
 
-        // 전체 약관 조회
-        List<Terms> allTerms = termsRepository.findAll();
-
-        // 최신 약관에서 신규로 추가된 약관 필터링
-        List<Terms> newTerms = allTerms.stream()
-                                .filter(term -> latestTerms.stream()
-                                        .noneMatch(latest -> latest.getTitle().equals(term.getTitle())))
-                                        .toList();
-
-        // 기존 최신 약관과 신규 약관 병합
-        latestTerms.addAll(newTerms);
-
-        // List<Term> -> List<TermTitleResponse> 로 변환하기.
-        return latestTerms.stream()
-                .map(term -> new TermsTitleResponse(term.getTitle(), term.isRequired()))
+        // 전체 로직중에서 비활성화된것은 제외하고 찾아온다.
+        List<Terms> allTerms = termsRepository.findAll().stream()
+                .filter(Terms::isActive)
                 .toList();
 
+        // 신규 추가된 약관 -> 전체 약관중 최신 활성화된 것에서 전체 약관이랑 안 겹치는 것
+        List<Terms> newTerms = allTerms.stream()
+                .filter(term -> latestActiveTerms.stream()
+                        .noneMatch(latest -> latest.getTitle().equals(term.getTitle())))
+                .toList();
+
+        // 두개 합쳐서
+        latestActiveTerms.addAll(newTerms);
+
+        // Dto에 매핑해서 리턴
+        return latestActiveTerms.stream()
+                .map(term -> new TermsTitleResponse(term.getTitle(), term.isRequired()))
+                .toList();
     }
 
 
