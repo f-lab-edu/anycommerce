@@ -19,15 +19,6 @@ public class UserAgreementController {
     private UserRepository userRepository;
 
     /**
-     * 약관 동의 저장
-     *
-     * @param userId 사용자 ID
-     * @param agreementData 약관 동의 데이터 (약관 ID와 동의 여부)
-     * @return 저장 결과
-     */
-
-
-    /**
      * 필수 약관 동의 여부 확인
      *
      * @param userId 사용자 ID
