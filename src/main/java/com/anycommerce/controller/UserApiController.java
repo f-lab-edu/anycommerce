@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -21,7 +20,7 @@ public class UserApiController {
     // 1. HTML Form 요청 처리 (기존 View 페이지 이동)
     @PostMapping("/user")
     public String signup(SignUpRequestDto request) {
-        userService.save(request);
+        userService.registerUser(request);
         return "redirect:/login"; // 회원가입 후 로그인 페이지로 리디렉션
     }
 
@@ -53,7 +52,7 @@ public class UserApiController {
     @PostMapping("/api/register")
     public ResponseEntity<String> registerUser(@RequestBody SignUpRequestDto request) {
         try {
-            userService.save(request);
+            userService.registerUser(request);
             return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
