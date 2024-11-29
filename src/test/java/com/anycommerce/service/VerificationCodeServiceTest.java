@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -86,5 +88,22 @@ class VerificationCodeServiceTest {
         });
     }
 
+    @Test
+    @DisplayName("인증코드 인증 실패 - 인증 시간 만료")
+    public void testVerifyCodeExpired() {
+        // Given
+        String phoneNumber = "01012345678";
+        verificationCodeService.generateAndSendCode(phoneNumber);
+
+        // 인증 코드 생성 후 시간 경과 시뮬레이션
+        VerificationCode code = verificationCodeRepository.findByPhoneNumber(phoneNumber).orElseThrow();
+        code.setCreatedAt(LocalDateTime.now().minusMinutes(5)); // 유효 시간(3분)을 초과한 상태로 설정
+        verificationCodeRepository.save(code);
+
+        // When & Then
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            verificationCodeService.verifyCode(phoneNumber, code.getRandomKey());
+        }, "인증 번호가 만료되었습니다.");
+    }
 
 }
