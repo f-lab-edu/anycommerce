@@ -72,6 +72,7 @@ public class VerificationCodeService {
             String encryptedPhoneNumber = encryptionUtil.encrypt(phoneNumber);
             verificationCode.setPhoneNumber(encryptedPhoneNumber);
             verificationCode.setVerified(true);
+            verificationCode.setVerifiedAt(LocalDateTime.now()); // 인증 시간 설정
             verificationCodeRepository.save(verificationCode);
         }
 }

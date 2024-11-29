@@ -14,7 +14,11 @@ public class EncryptionUtil{
 
     private final SecretKey secretKey;
 
-    public EncryptionUtil(@Value("${ENCRYPTION.KEY}") String encryptionKey) {
+    // @Value로 application.properties의 encryption.key 값을 주입
+    public EncryptionUtil(@Value("${encryption.key}") String encryptionKey) {
+        if (encryptionKey.length() != 16 && encryptionKey.length() != 24 && encryptionKey.length() != 32) {
+            throw new IllegalArgumentException("Invalid AES key length: " + encryptionKey.length() + " bytes. Supported lengths are 16, 24, or 32 bytes.");
+        }
         this.secretKey = new SecretKeySpec(encryptionKey.getBytes(StandardCharsets.UTF_8), "AES");
     }
 

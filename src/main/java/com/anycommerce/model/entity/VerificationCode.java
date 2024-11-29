@@ -31,7 +31,7 @@ public class VerificationCode {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime verifiedAt;
 
 
