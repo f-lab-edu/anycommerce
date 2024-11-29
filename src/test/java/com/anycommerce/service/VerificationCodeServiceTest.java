@@ -89,7 +89,7 @@ class VerificationCodeServiceTest {
     }
 
     @Test
-    @DisplayName("인증 코드 검증 성공 및 만료 시 실패")
+    @DisplayName("인증 코드 만료 후 입력 시 실패, 새로운 인증 코드 생성 - 사용 여부 확인")
     public void testVerifyCodeWithExpiration() throws InterruptedException {
         // Given
         String phoneNumber = "01012345678";
