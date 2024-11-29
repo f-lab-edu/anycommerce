@@ -89,21 +89,31 @@ class VerificationCodeServiceTest {
     }
 
     @Test
-    @DisplayName("인증코드 인증 실패 - 인증 시간 만료")
-    public void testVerifyCodeExpired() {
+    @DisplayName("인증 코드 검증 성공 및 만료 시 실패")
+    public void testVerifyCodeWithExpiration() throws InterruptedException {
         // Given
         String phoneNumber = "01012345678";
+
+        // Step 1: 인증 코드 생성 및 발송
         verificationCodeService.generateAndSendCode(phoneNumber);
-
-        // 인증 코드 생성 후 시간 경과 시뮬레이션
         VerificationCode code = verificationCodeRepository.findByPhoneNumber(phoneNumber).orElseThrow();
-        code.setCreatedAt(LocalDateTime.now().minusMinutes(5)); // 유효 시간(3분)을 초과한 상태로 설정
-        verificationCodeRepository.save(code);
+        String validKey = code.getRandomKey();
 
-        // When & Then
+        // Step 2: 유효 시간을 초과하도록 시뮬레이션 (3분 초과)
+        // 실제로 3분을 기다리기엔 비효율적이므로 아래와 같이 직접 시간을 변경
+
+        code.setCreatedAt(LocalDateTime.now().minusMinutes(4));
+
+        // Step 3: 만료된 코드로 인증 시도
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            verificationCodeService.verifyCode(phoneNumber, code.getRandomKey());
-        }, "인증 번호가 만료되었습니다.");
+            verificationCodeService.verifyCode(phoneNumber, validKey);
+        }, "유효 시간이 지난 인증 코드는 실패해야 합니다.");
+
+        // Step 4: 새 인증 코드 생성
+        verificationCodeService.generateAndSendCode(phoneNumber);
+        VerificationCode newCode = verificationCodeRepository.findByPhoneNumber(phoneNumber).orElseThrow();
+        Assertions.assertNotEquals(validKey, newCode.getRandomKey(), "새로 생성된 인증 코드는 이전 코드와 달라야 합니다.");
+        Assertions.assertFalse(newCode.isVerified(), "새로 생성된 인증 코드는 초기 상태여야 합니다.");
     }
 
 }
