@@ -21,6 +21,7 @@ import java.util.Map;
 @Service
 @Builder
 public class UserService {
+
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final TermsRepository termsRepository;

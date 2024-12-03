@@ -8,21 +8,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Terms extends AbstractEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    // 약관 제목
-    @Column(nullable = false)
-    private String title;
+    // 약관 제목 + 버전 복합키
+    @EmbeddedId
+    private TermsId id;
 
     // 약관 내용
     @Column(nullable = false)
     private String content;
-
-    // 약관 버전
-    @Column(nullable = false)
-    private String version;
 
     // 필수 여부
     @Column(nullable = false)

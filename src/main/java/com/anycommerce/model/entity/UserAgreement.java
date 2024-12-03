@@ -1,32 +1,24 @@
 package com.anycommerce.model.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserAgreement extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    // 유저 + 약관
+    @EmbeddedId
+    private UserAgreementId id; // 복합키 사용
 
-    // User와 다대일 관계 설정
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    // Terms와 다대일 관계 설정
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name= "terms_id", nullable = false)
-    private Terms terms;
-
+    // 동의 여부
     @Column(nullable = false)
     private boolean agreed;
 
