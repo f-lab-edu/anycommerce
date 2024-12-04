@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode
 public class UserAgreementId implements Serializable {
 

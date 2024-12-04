@@ -11,7 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class UserAgreement extends AbstractEntity {
 
     // 유저 + 약관
@@ -21,5 +20,4 @@ public class UserAgreement extends AbstractEntity {
     // 동의 여부
     @Column(nullable = false)
     private boolean agreed;
-
 }

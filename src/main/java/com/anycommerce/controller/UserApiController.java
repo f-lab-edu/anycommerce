@@ -1,5 +1,6 @@
 package com.anycommerce.controller;
 
+import com.anycommerce.model.dto.CommonResponse;
 import com.anycommerce.model.dto.SignUpRequestDto;
 import com.anycommerce.service.UserService;
 import lombok.Data;
@@ -26,37 +27,54 @@ public class UserApiController {
 
     // 2. ID 중복 체크
     @GetMapping("/check-id")
-    public ResponseEntity<String> checkUserId(@RequestParam String userId) {
+    public CommonResponse<String> checkUserId(@RequestParam String userId) {
         boolean isDuplicate = userService.checkUserIdDuplicate(userId);
         System.out.println("Checking userId: " + userId + ", isDuplicate: " + isDuplicate);
 
         if (isDuplicate) {
-            return ResponseEntity.badRequest().body("이미 사용중인 아이디입니다.");
+            return CommonResponse.<String>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message("이미 사용중인 아이디입니다.")
+                    .build();
         }
-        return ResponseEntity.ok().build();
+        return CommonResponse.<String>builder()
+                .code(HttpStatus.OK.value())
+                .message("사용 가능한 아이디입니다.")
+                .build();
     }
 
     // 3. 이메일 중복 체크
     @GetMapping("/check-email")
-    public ResponseEntity<String> checkEmail(@RequestParam String email) {
+    public CommonResponse<String> checkEmail(@RequestParam String email) {
         boolean isDuplicate = userService.checkEmailDuplicate(email);
 
         if (isDuplicate) {
-            return ResponseEntity.badRequest().body("이미 사용중인 이메일입니다.");
+            return CommonResponse.<String>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message("이미 사용중인 이메일입니다.")
+                    .build();
         }
-        return ResponseEntity.ok().build();
+        return CommonResponse.<String>builder()
+                .code(HttpStatus.OK.value())
+                .message("사용 가능한 이메일입니다.")
+                .build();
     }
 
 
     // *. 최종 등록. -> 최종 엔티티 본으로 수정해야 함.
     @PostMapping("/api/register")
-    public ResponseEntity<String> registerUser(@RequestBody SignUpRequestDto request) {
+    public CommonResponse<String> registerUser(@RequestBody SignUpRequestDto request) {
         try {
             userService.registerUser(request);
-            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+            return CommonResponse.<String>builder()
+                    .code(HttpStatus.CREATED.value())
+                    .message("User registered successfully")
+                    .build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error: " + e.getMessage());
+            return CommonResponse.<String>builder()
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message("Error: " + e.getMessage())
+                    .build();
         }
     }
 

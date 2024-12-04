@@ -6,6 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class TermsTitleResponse {
+
     private String title;
     private boolean isRequired;
+
 }

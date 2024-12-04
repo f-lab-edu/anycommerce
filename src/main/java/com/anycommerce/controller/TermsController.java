@@ -1,5 +1,7 @@
 package com.anycommerce.controller;
 
+import com.anycommerce.model.dto.CommonResponse;
+import com.anycommerce.model.dto.GetTermResponse;
 import com.anycommerce.model.dto.TermsTitleResponse;
 import com.anycommerce.model.entity.TermsId;
 import com.anycommerce.service.TermsService;
@@ -19,17 +21,27 @@ public class TermsController {
 
     // 최신 약관 목록 조회 (title + is_required)
     @GetMapping("/titles")
-    public ResponseEntity<List<TermsTitleResponse>> getLatestTermsTitles() {
-        return ResponseEntity.ok(termsService.getLatestTermsTitles());
+    public CommonResponse<List<TermsTitleResponse>> getLatestTermsTitles() {
+        List<TermsTitleResponse> termsList = termsService.getLatestTermsTitles();
+
+        return CommonResponse.<List<TermsTitleResponse>>builder()
+                .code(200)
+                .message("성공적으로 약관 목록을 가져왔습니다.")
+                .payload(termsList)
+                .build();
     }
 
     // 더보기 특정 약관 내용 조회 (모달 창에서 활용)
     @GetMapping("/{id}")
-    public ResponseEntity<String> getTermsContentById(@PathVariable TermsId id) {
+    public CommonResponse<GetTermResponse> getTermsContentById(@PathVariable TermsId id) {
         String content = termsService.getTermsContentById(id);
-        return ResponseEntity.ok(content);
+        GetTermResponse termResponse = new GetTermResponse(content);
+
+        return CommonResponse.<GetTermResponse>builder()
+                .code(200)
+                .message("성공적으로 약관 내용을 가져왔습니다.")
+                .payload(termResponse)
+                .build();
     }
-
-
 
 }

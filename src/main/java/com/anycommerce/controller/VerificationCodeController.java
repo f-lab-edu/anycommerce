@@ -1,5 +1,6 @@
 package com.anycommerce.controller;
 
+import com.anycommerce.model.dto.CommonResponse;
 import com.anycommerce.service.VerificationCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,27 +22,32 @@ public class VerificationCodeController {
      * @return 성공 메시지
      */
     @GetMapping("/send")
-    public ResponseEntity<String> sendVerificationNumber(
+    public CommonResponse<String> sendVerificationNumber(
             @RequestParam String phoneNumber
 
     ){
 
         verificationCodeService.generateAndSendCode(phoneNumber);
-        return ResponseEntity.ok("인증 번호를 보냈습니다.");
+        CommonResponse<String> response = new CommonResponse<>();
+        response.setCode(200);
+        response.setMessage("인증 번호를 보냈습니다.");
+        response.setPayload(null);
+        return response;
 
     }
 
 
     @GetMapping("/verify")
-    public ResponseEntity<String> verifyCode(
+    public CommonResponse<String> verifyCode(
             @RequestParam String phoneNumber,
             @RequestParam String randomKey
     ){
         verificationCodeService.verifyCode(phoneNumber, randomKey);
-        return ResponseEntity.ok("인증 성공");
-
-
-
+        CommonResponse<String> response = new CommonResponse<>();
+        response.setCode(200);
+        response.setMessage("인증 성공");
+        response.setPayload(null);
+        return response;
     }
 }
 

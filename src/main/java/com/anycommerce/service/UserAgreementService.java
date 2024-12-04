@@ -60,7 +60,6 @@ public class UserAgreementService {
         UserAgreementId userAgreementId = new UserAgreementId();
         userAgreementId.setUser(user);
         userAgreementId.setTerms(terms);
-
         userAgreement.setAgreed(agreed);
         userAgreementRepository.save(userAgreement);
     }
