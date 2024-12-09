@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Random;
 
 @RequiredArgsConstructor
@@ -16,6 +17,40 @@ public class VerificationCodeService {
 
     private final VerificationCodeRepository verificationCodeRepository;
     private final EncryptionUtil encryptionUtil;
+
+    // 인증 요청 존재 확인
+    public boolean isVerificationRequestExists(String phoneNumber) {
+        return verificationCodeRepository.findByPhoneNumber(phoneNumber).isPresent();
+    }
+
+    // 인증번호 만료 확인
+    public boolean isVerificationCodeExpired(String phoneNumber) {
+        return verificationCodeRepository.findByPhoneNumber(phoneNumber)
+                .map(VerificationCode::isExpired)
+                .orElse(true); // 인증 요청이 없으면 만료된 것으로 처리
+    }
+
+    // 인증번호 일치 확인
+    public boolean isVerificationCodeValid(String phoneNumber, String randomKey) {
+        return verificationCodeRepository.findByPhoneNumber(phoneNumber)
+                .map(code -> Objects.equals(code.getRandomKey(), randomKey))
+                .orElse(false); // 인증 요청이 없으면 false 반환
+    }
+
+    // 인증 완료 처리
+    @Transactional
+    public void completeVerification(String phoneNumber) {
+        VerificationCode verificationCode = verificationCodeRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new IllegalArgumentException("인증 요청이 존재하지 않습니다."));
+
+        String encryptedPhoneNumber = encryptionUtil.encrypt(phoneNumber);
+        verificationCode.setPhoneNumber(encryptedPhoneNumber);
+        verificationCode.setVerified(true);
+        verificationCode.setVerifiedAt(LocalDateTime.now());
+        verificationCodeRepository.save(verificationCode);
+    }
+
+
 
     /**
      * 인증 코드 생성 및 발송 메서드
@@ -64,7 +99,7 @@ public class VerificationCodeService {
             }
 
             // 인증 번호 일치 확인
-            if (!verificationCode.getRandomKey().equals(randomKey)) {
+            if (!Objects.equals(verificationCode.getRandomKey(), randomKey)) {
                 throw new IllegalArgumentException("인증 번호가 일치하지 않습니다.");
             }
 

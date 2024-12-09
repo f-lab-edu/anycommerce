@@ -33,12 +33,12 @@ public class UserApiController {
 
         if (isDuplicate) {
             return CommonResponse.<String>builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
+                    .errorCode(HttpStatus.BAD_REQUEST.value())
                     .message("이미 사용중인 아이디입니다.")
                     .build();
         }
         return CommonResponse.<String>builder()
-                .code(HttpStatus.OK.value())
+                .errorCode(HttpStatus.OK.value())
                 .message("사용 가능한 아이디입니다.")
                 .build();
     }
@@ -50,12 +50,12 @@ public class UserApiController {
 
         if (isDuplicate) {
             return CommonResponse.<String>builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
+                    .errorCode(HttpStatus.BAD_REQUEST.value())
                     .message("이미 사용중인 이메일입니다.")
                     .build();
         }
         return CommonResponse.<String>builder()
-                .code(HttpStatus.OK.value())
+                .errorCode(HttpStatus.OK.value())
                 .message("사용 가능한 이메일입니다.")
                 .build();
     }
@@ -67,12 +67,12 @@ public class UserApiController {
         try {
             userService.registerUser(request);
             return CommonResponse.<String>builder()
-                    .code(HttpStatus.CREATED.value())
+                    .errorCode(HttpStatus.CREATED.value())
                     .message("User registered successfully")
                     .build();
         } catch (Exception e) {
             return CommonResponse.<String>builder()
-                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .errorCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .message("Error: " + e.getMessage())
                     .build();
         }

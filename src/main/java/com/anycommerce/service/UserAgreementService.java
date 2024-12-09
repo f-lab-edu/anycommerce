@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @RequiredArgsConstructor
@@ -35,7 +36,10 @@ public class UserAgreementService {
         // 필수 약관의 ID가 사용자가 동의한 약관 목록에 모두 포함되어있는지 확인
         return requiredTerms.stream()
                 .allMatch(term -> userAgreements.stream()
-                        .anyMatch(agreement -> agreement.getId().equals(term.getId())));
+                        .anyMatch(agreement ->
+                                Objects.equals(agreement.getId().getTerms().getId().getTitle(), term.getId().getTitle()) &&
+                                        Objects.equals(agreement.getId().getTerms().getId().getVersion(), term.getId().getVersion())));
+
 
     }
 
