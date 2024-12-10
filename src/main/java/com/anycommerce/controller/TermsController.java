@@ -33,13 +33,10 @@ public class TermsController {
     // 더보기 특정 약관 내용 조회 (모달 창에서 활용)
     @GetMapping("/{id}")
     public CommonResponse<GetTermResponse> getTermsContentById(@PathVariable TermsId id) {
-        Optional<String> contentOptional = termsService.getTermsContentById(id);
 
-        // Optional 처리 대신 예외 처리로 변경
-        String content = termsService.getTermsContentById(id)
-                .orElseThrow(() -> new CustomBusinessException(ErrorCode.NOT_FOUND));
-
+        String content = termsService.getTermsContentById(id);
         GetTermResponse termResponse = new GetTermResponse(content);
+
         return buildSuccessResponse(termResponse);
     }
 

@@ -17,6 +17,8 @@ public class VerificationCodeResponse {
 
     public enum VerificationStatus {
         SUCCESS,
-        FAILED
+        FAILED,
+        EXPIRED,
+        PENDING
     }
 }

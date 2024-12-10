@@ -1,5 +1,6 @@
 package com.anycommerce.model.entity;
 
+import com.anycommerce.model.dto.VerificationCodeResponse;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,8 +25,10 @@ public class VerificationCode {
     @Column(nullable = false)
     private String randomKey;
 
+    // 상태 필드 추가
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private boolean verified;
+    private VerificationCodeResponse.VerificationStatus status;
 
     @Column(nullable = false)
     @CreationTimestamp
@@ -48,8 +51,34 @@ public class VerificationCode {
      * 검증 완료 처리 메서드
      */
     public void markAsVerified() {
-        this.verified = true;
+        this.status = VerificationCodeResponse.VerificationStatus.SUCCESS;
         this.verifiedAt = LocalDateTime.now();
+    }
+
+    /**
+     * 검증 실패 처리 메서드
+     */
+    public void markAsFailed() {
+        this.status = VerificationCodeResponse.VerificationStatus.FAILED;
+        this.verifiedAt = LocalDateTime.now();
+    }
+
+    /**
+     * 만료 처리 메서드
+     */
+    public void markAsExpired() {
+        this.status = VerificationCodeResponse.VerificationStatus.EXPIRED;
+        this.verifiedAt = LocalDateTime.now();
+    }
+
+    /**
+     * 엔티티가 데이터베이스에 처음 저장되기 전에 기본 상태를 설정
+     */
+    @PrePersist
+    private void prePersist() {
+        if (this.status == null) {
+            this.status = VerificationCodeResponse.VerificationStatus.PENDING;
+        }
     }
 
 }

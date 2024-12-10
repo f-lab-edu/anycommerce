@@ -1,10 +1,13 @@
 package com.anycommerce.service;
 
+import com.anycommerce.exception.CustomBusinessException;
+import com.anycommerce.exception.ErrorCode;
 import com.anycommerce.model.dto.TermsTitleDetail;
 import com.anycommerce.model.dto.TermsTitleResponse;
 import com.anycommerce.model.entity.Terms;
 import com.anycommerce.model.entity.TermsId;
 import com.anycommerce.repository.TermsRepository;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class TermsService {
 
     private final TermsRepository termsRepository;
@@ -32,7 +36,9 @@ public class TermsService {
 
 
     // 2. 특정 약관 내용 조회
-    public Optional<String> getTermsContentById(TermsId id) {
-        return termsRepository.findById(id).map(Terms::getContent);
+    public String getTermsContentById(TermsId id) {
+        return termsRepository.findById(id)
+                .map(Terms::getContent)
+                .orElseThrow(() -> new CustomBusinessException(ErrorCode.NOT_FOUND));
     }
 }

@@ -33,6 +33,10 @@ public enum ErrorCode {
     TOO_MANY_VERIFICATION_ATTEMPTS(HttpStatus.TOO_MANY_REQUESTS, 4022, "인증번호 입력 시도가 너무 많습니다."),
     VERIFICATION_NOT_REQUESTED(HttpStatus.BAD_REQUEST, 4023, "인증 요청이 존재하지 않습니다."),
 
+    // 약관 관련 에러
+    NOT_FOUND_TERMS(HttpStatus.NOT_FOUND, 4030, "존재하지 않는 약관입니다."),
+    MISSING_REQUIRED_TERMS(HttpStatus.BAD_REQUEST, 4031, "필수 약관에 동의하지 않았습니다."),
+
     // 기타 에러
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5000, "서버 내부 오류가 발생했습니다.");
 

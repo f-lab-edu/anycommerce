@@ -1,11 +1,11 @@
 package com.anycommerce.service;
 
-import com.anycommerce.model.dto.UserAgreementRequestDto;
+import com.anycommerce.exception.CustomBusinessException;
+import com.anycommerce.exception.ErrorCode;
 import com.anycommerce.model.entity.*;
 import com.anycommerce.repository.TermsRepository;
 import com.anycommerce.repository.UserAgreementRepository;
-import com.anycommerce.repository.UserRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,6 @@ public class UserAgreementService {
 
     private final UserAgreementRepository userAgreementRepository;
     private final TermsRepository termsRepository;
-    private final UserRepository userRepository;
 
 
     /**
@@ -28,19 +27,18 @@ public class UserAgreementService {
      * @param user 사용자
      * @return 모든 필수 약관에 동의했는지 여부
      */
+    @Transactional(readOnly = true)
     public boolean hasAgreedToAllRequiredTerms(User user) {
-
         List<Terms> requiredTerms = termsRepository.findAllByIsRequired(true);
         List<UserAgreement> userAgreements = userAgreementRepository.findAllByIdUserAndAgreed(user, true);
 
-        // 필수 약관의 ID가 사용자가 동의한 약관 목록에 모두 포함되어있는지 확인
-        return requiredTerms.stream()
-                .allMatch(term -> userAgreements.stream()
-                        .anyMatch(agreement ->
-                                Objects.equals(agreement.getId().getTerms().getId().getTitle(), term.getId().getTitle()) &&
-                                        Objects.equals(agreement.getId().getTerms().getId().getVersion(), term.getId().getVersion())));
+        return requiredTerms.stream().allMatch(term -> isUserAgreedToTerm(userAgreements, term));
+    }
 
-
+    private boolean isUserAgreedToTerm(List<UserAgreement> userAgreements, Terms term) {
+        return userAgreements.stream().anyMatch(agreement ->
+                Objects.equals(agreement.getId().getTerms().getId().getTitle(), term.getId().getTitle()) &&
+                        Objects.equals(agreement.getId().getTerms().getId().getVersion(), term.getId().getVersion()));
     }
 
     /**
@@ -54,18 +52,18 @@ public class UserAgreementService {
     public void saveUserAgreement(User user, TermsId termsId, boolean agreed) {
 
         Terms terms = termsRepository.findById(termsId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 약관입니다."));
+                .orElseThrow(() -> new CustomBusinessException(ErrorCode.NOT_FOUND_TERMS));
 
-        // 약관 동의가 이미 존재 하면 업데이트, 아니면 새로 생성
         UserAgreement userAgreement = userAgreementRepository.findByIdUserAndIdTerms(user, terms)
-                .orElse(new UserAgreement());
+                .orElseGet(() -> createNewUserAgreement(user, terms));
 
-
-        UserAgreementId userAgreementId = new UserAgreementId();
-        userAgreementId.setUser(user);
-        userAgreementId.setTerms(terms);
         userAgreement.setAgreed(agreed);
         userAgreementRepository.save(userAgreement);
+    }
+
+    private UserAgreement createNewUserAgreement(User user, Terms terms) {
+        UserAgreementId userAgreementId = new UserAgreementId(user, terms);
+        return new UserAgreement(userAgreementId, false);
     }
 
 
