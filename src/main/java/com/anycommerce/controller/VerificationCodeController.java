@@ -35,7 +35,7 @@ public class VerificationCodeController {
         }
 
         verificationCodeService.generateAndSendCode(phoneNumber);
-        return buildResponse(phoneNumber,"인증번호를 발송했습니다.");
+        return buildResponse(phoneNumber);
     }
 
 
@@ -68,25 +68,21 @@ public class VerificationCodeController {
         verificationCodeService.completeVerification(phoneNumber);
 
         // 성공 응답
-        return buildResponse(
-                phoneNumber,
-                "인증 성공");
+        return buildResponse(phoneNumber);
     }
 
     /**
      * 공통 응답 생성 메서드
      * @param phoneNumber 사용자 전화번호
-     * @param message 응답 메시지
      * @return CommonResponse<VerificationCodeResponse>
      */
     private CommonResponse<VerificationCodeResponse> buildResponse(
-            String phoneNumber,
-            String message
+            String phoneNumber
     ) {
         VerificationCodeResponse response = VerificationCodeResponse.builder()
                 .phoneNumber(phoneNumber)
                 .status(VerificationCodeResponse.VerificationStatus.SUCCESS)
-                .message(message)
+                .message(null)
                 .timestamp(LocalDateTime.now())
                 .build();
         return CommonResponse.success(response);

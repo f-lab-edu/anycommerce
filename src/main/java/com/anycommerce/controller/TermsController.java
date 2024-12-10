@@ -27,7 +27,7 @@ public class TermsController {
         // TermsTitleResponse를 서비스에서 직접 가져오기
         TermsTitleResponse termsResponse = termsService.getLatestTermsTitles();
 
-        return buildSuccessResponse(termsResponse, "약관 목록을 성공적으로 가져왔습니다.");
+        return buildSuccessResponse(termsResponse);
     }
 
     // 더보기 특정 약관 내용 조회 (모달 창에서 활용)
@@ -40,14 +40,14 @@ public class TermsController {
                 .orElseThrow(() -> new CustomBusinessException(ErrorCode.NOT_FOUND));
 
         GetTermResponse termResponse = new GetTermResponse(content);
-        return buildSuccessResponse(termResponse, "약관 내용을 성공적으로 가져왔습니다.");
+        return buildSuccessResponse(termResponse);
     }
 
     // (성공) 응답 빌더
-    private <T> CommonResponse<T> buildSuccessResponse(T content, String message) {
+    private <T> CommonResponse<T> buildSuccessResponse(T content) {
         return CommonResponse.<T>builder()
                 .errorCode(ErrorCode.SUCCESS.getCode())
-                .message(message)
+                .message(null)
                 .content(content)
                 .build();
     }
