@@ -5,6 +5,10 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorCode {
+
+    // 성공 응답
+    SUCCESS(HttpStatus.OK, 0, "요청이 성공적으로 처리되었습니다."),
+
     // 공통 에러
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, 4000, "요청이 유효하지 않습니다."),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, 4001, "인증이 필요합니다."),
@@ -42,8 +46,4 @@ public enum ErrorCode {
         this.message = message;
     }
 
-    // 동적 메시지 구성 메서드
-    public String formatMessage(Object... args) {
-        return String.format(this.message, args);
-    }
 }

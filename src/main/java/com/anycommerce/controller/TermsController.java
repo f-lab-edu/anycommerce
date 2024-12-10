@@ -1,15 +1,16 @@
 package com.anycommerce.controller;
 
+import com.anycommerce.exception.CustomBusinessException;
+import com.anycommerce.exception.ErrorCode;
 import com.anycommerce.model.dto.CommonResponse;
 import com.anycommerce.model.dto.GetTermResponse;
 import com.anycommerce.model.dto.TermsTitleResponse;
 import com.anycommerce.model.entity.TermsId;
 import com.anycommerce.service.TermsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 import java.util.Optional;
 
 @RestController
@@ -26,11 +27,7 @@ public class TermsController {
         // TermsTitleResponse를 서비스에서 직접 가져오기
         TermsTitleResponse termsResponse = termsService.getLatestTermsTitles();
 
-        return CommonResponse.<TermsTitleResponse>builder()
-                .errorCode(200)
-                .message("성공적으로 약관 목록을 가져왔습니다.")
-                .content(termsResponse)
-                .build();
+        return buildSuccessResponse(termsResponse, "약관 목록을 성공적으로 가져왔습니다.");
     }
 
     // 더보기 특정 약관 내용 조회 (모달 창에서 활용)
@@ -38,21 +35,22 @@ public class TermsController {
     public CommonResponse<GetTermResponse> getTermsContentById(@PathVariable TermsId id) {
         Optional<String> contentOptional = termsService.getTermsContentById(id);
 
-        if (contentOptional.isPresent()) {
-            // 약관 내용이 있을 경우
-            GetTermResponse termResponse = new GetTermResponse(contentOptional.get());
-            return CommonResponse.<GetTermResponse>builder()
-                    .errorCode(200)
-                    .message("Terms content fetched successfully.")
-                    .content(termResponse)
-                    .build();
-        } else {
-            // 약관 내용이 없을 경우
-            return CommonResponse.<GetTermResponse>builder()
-                    .errorCode(404)
-                    .message("Terms not found for the given ID.")
-                    .content(null)
-                    .build();
-        }
+        // Optional 처리 대신 예외 처리로 변경
+        String content = termsService.getTermsContentById(id)
+                .orElseThrow(() -> new CustomBusinessException(ErrorCode.NOT_FOUND));
+
+        GetTermResponse termResponse = new GetTermResponse(content);
+        return buildSuccessResponse(termResponse, "약관 내용을 성공적으로 가져왔습니다.");
     }
+
+    // (성공) 응답 빌더
+    private <T> CommonResponse<T> buildSuccessResponse(T content, String message) {
+        return CommonResponse.<T>builder()
+                .errorCode(ErrorCode.SUCCESS.getCode())
+                .message(message)
+                .content(content)
+                .build();
+    }
+
+
 }
