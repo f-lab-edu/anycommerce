@@ -37,6 +37,28 @@ public class VerificationCode {
     @Column(nullable = true)
     private LocalDateTime verifiedAt;
 
+    @Column(nullable = false)
+    private int attempts; // 틀린 횟수 추가
+
+    @Column(nullable = true)
+    private LocalDateTime lastSentAt;
+
+    // 최대 시도 제한
+    private static final int MAX_ATTEMPTS = 5;
+
+    /**
+     * 인증 번호 틀린 횟수 증가
+     */
+    public void incrementAttempts() {
+        this.attempts++;
+    }
+
+    /**
+     * 틀린 횟수 제한 여부 확인
+     */
+    public boolean hasExceededMaxAttempts() {
+        return this.attempts >= MAX_ATTEMPTS;
+    }
 
     /**
      * 유효 시간 체크 메서드
@@ -47,12 +69,24 @@ public class VerificationCode {
         return this.createdAt.isBefore(LocalDateTime.now().minusMinutes(3));
     }
 
+    // 발송 가능 여부 확인
+    public boolean canSendCode() {
+        if (attempts == 4 && lastSentAt != null) {
+            return lastSentAt.isBefore(LocalDateTime.now().minusSeconds(90)); // 1분 30초 제한
+        }
+        if (attempts >= 5 && lastSentAt != null) {
+            return lastSentAt.isBefore(LocalDateTime.now().minusMinutes(2)); // 2분 제한
+        }
+        return true; // 첫 3회는 제한 없음
+    }
+
     /**
      * 검증 완료 처리 메서드
      */
     public void markAsVerified() {
         this.status = VerificationCodeResponse.VerificationStatus.SUCCESS;
         this.verifiedAt = LocalDateTime.now();
+        this.attempts = 0;
     }
 
     /**
@@ -60,6 +94,7 @@ public class VerificationCode {
      */
     public void markAsFailed() {
         this.status = VerificationCodeResponse.VerificationStatus.FAILED;
+        incrementAttempts();
         this.verifiedAt = LocalDateTime.now();
     }
 

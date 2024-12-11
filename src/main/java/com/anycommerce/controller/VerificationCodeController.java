@@ -29,11 +29,6 @@ public class VerificationCodeController {
     public CommonResponse<VerificationCodeResponse> sendVerificationNumber(
             @RequestParam String phoneNumber
     ){
-        // 핸드폰 번호 확인 (010-XXXX-XXXX)
-        if (!isValidPhoneNumber(phoneNumber)) {
-            throw new CustomBusinessException(ErrorCode.INVALID_PHONE_NUMBER);
-        }
-
         verificationCodeService.generateAndSendCode(phoneNumber);
         return buildResponse(phoneNumber);
     }
@@ -45,7 +40,7 @@ public class VerificationCodeController {
             @RequestParam String randomKey
     ){
         // 핸드폰 번호 양식 재확인 (010-XXXX-XXXX)
-        if (!isValidPhoneNumber(phoneNumber)) {
+        if (verificationCodeService.isValidPhoneNumber(phoneNumber)) {
             throw new CustomBusinessException(ErrorCode.INVALID_PHONE_NUMBER);
         }
 
@@ -88,13 +83,6 @@ public class VerificationCodeController {
         return CommonResponse.success(response);
     }
 
-    /**
-     * 핸드폰 번호 검증 메서드
-     * @param phoneNumber 사용자 전화번호
-     * @return boolean
-     */
-    private boolean isValidPhoneNumber(String phoneNumber) {
-        return phoneNumber.matches("^010-\\d{4}-\\d{4}$");
-    }
+
 }
 

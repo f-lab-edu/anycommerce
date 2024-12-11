@@ -1,10 +1,11 @@
 package com.anycommerce.service;
 
 import com.anycommerce.config.EncryptionUtil;
+import com.anycommerce.exception.CustomBusinessException;
+import com.anycommerce.exception.ErrorCode;
 import com.anycommerce.model.dto.SignUpRequestDto;
 import com.anycommerce.model.entity.Terms;
 import com.anycommerce.model.entity.User;
-import com.anycommerce.model.entity.VerificationCode;
 import com.anycommerce.repository.TermsRepository;
 import com.anycommerce.repository.UserRepository;
 import com.anycommerce.repository.VerificationCodeRepository;
@@ -27,6 +28,7 @@ public class UserService {
     private final TermsRepository termsRepository;
     private final EncryptionUtil encryptionUtil;
     private final VerificationCodeRepository verificationCodeRepository;
+    private final VerificationCodeService verificationCodeService;
 
 
 
@@ -34,42 +36,39 @@ public class UserService {
     public void registerUser(SignUpRequestDto dto){
         // 1. ID 중복체크
         if (checkUserIdDuplicate(dto.getUserId())) {
-            throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
+            throw new CustomBusinessException(ErrorCode.DUPLICATE_USER_ID);
         }
 
         // 2. Email 중복체크
         if (checkEmailDuplicate(dto.getEmail())) {
-            throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
+            throw new CustomBusinessException(ErrorCode.DUPLICATE_EMAIL);
         }
 
         // 3. Phone 중복체크
         if (checkPhoneNumberDuplicate(dto.getPhoneNumber())) {
-            throw new IllegalArgumentException("이미 등록된 전화번호입니다.");
+            throw new CustomBusinessException(ErrorCode.INVALID_PHONE_NUMBER);
         }
 
         // 4. 필수 약관 동의 확인
         if (!hasAgreedToRequiredTerms(dto.getAgreement())) {
-            throw new IllegalArgumentException("필수 약관에 동의하지 않았습니다.");
+            throw new CustomBusinessException(ErrorCode.NOT_AGREED_REQUIRED_TERMS);
         }
 
-        // 5. 인증된 전화번호 확인
-        String encryptedPhoneNumber = encryptionUtil.encrypt(dto.getPhoneNumber());
-        VerificationCode verificationCode = verificationCodeRepository.findByPhoneNumber(encryptedPhoneNumber)
-                .orElseThrow(() -> new IllegalArgumentException("해당 전화번호는 인증되지 않았습니다."));
-
-        // 6. 복호화된 전화번호 비교
-        String decryptedPhoneNumber = encryptionUtil.decrypt(verificationCode.getPhoneNumber());
+        // 5. 전화번호 확인
+        String encryptedPhoneNumber = verificationCodeService.encryptVerifiedPhoneNumber(dto.getPhoneNumber());
+        String decryptedPhoneNumber = encryptionUtil.decrypt(encryptedPhoneNumber);
         if (!decryptedPhoneNumber.equals(dto.getPhoneNumber())) {
-            throw new IllegalArgumentException("전화번호가 인증된 번호와 일치하지 않습니다.");
+            throw new CustomBusinessException(ErrorCode.INVALID_PHONE_NUMBER);
         }
 
-        // 7. 회원가입 처리
+
+        // 6. 회원가입 처리
         User user = User.builder()
                 .userId(dto.getUserId())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .username(dto.getUsername())
                 .email(dto.getEmail())
-                .phoneNumber(encryptedPhoneNumber)
+                .phoneNumber(dto.getPhoneNumber())
                 .zipcode(dto.getZipcode())
                 .streetAddress(dto.getStreetAddress())
                 .detailAddress(dto.getDetailAddress())
@@ -78,7 +77,7 @@ public class UserService {
         userRepository.save(user);
 
         // 8. 인증 데이터 삭제
-        verificationCodeRepository.delete(verificationCode);
+        verificationCodeRepository.deleteByPhoneNumber(dto.getPhoneNumber());
     }
 
 

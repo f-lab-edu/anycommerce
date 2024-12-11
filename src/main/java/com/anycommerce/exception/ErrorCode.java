@@ -16,6 +16,7 @@ public enum ErrorCode {
     FORBIDDEN(HttpStatus.FORBIDDEN, 4003, "접근 권한이 없습니다."),
     NOT_FOUND(HttpStatus.NOT_FOUND, 4004, "요청한 자원을 찾을 수 없습니다."),
     TOO_MANY_REQUESTS(HttpStatus.TOO_MANY_REQUESTS, 4290, "요청이 너무 많습니다. 잠시 후 다시 시도해주세요."),
+    TOO_MANY_SMS_REQUESTS(HttpStatus.TOO_MANY_REQUESTS, 4291, "SMS 요청이 너무 많습니다. 잠시 후 다시 시도해주세요."),
 
     // 사용자 관련 에러
     DUPLICATE_USER_ID(HttpStatus.BAD_REQUEST, 4010, "이미 사용 중인 아이디입니다."),
@@ -32,10 +33,11 @@ public enum ErrorCode {
     EXPIRED_VERIFICATION_CODE(HttpStatus.BAD_REQUEST, 4021, "인증번호가 만료되었습니다."),
     TOO_MANY_VERIFICATION_ATTEMPTS(HttpStatus.TOO_MANY_REQUESTS, 4022, "인증번호 입력 시도가 너무 많습니다."),
     VERIFICATION_NOT_REQUESTED(HttpStatus.BAD_REQUEST, 4023, "인증 요청이 존재하지 않습니다."),
+    BLACKLISTED_PHONE_NUMBER(HttpStatus.FORBIDDEN, 4024, "해당 전화번호는 더 이상 인증할 수 없습니다."),
 
     // 약관 관련 에러
     NOT_FOUND_TERMS(HttpStatus.NOT_FOUND, 4030, "존재하지 않는 약관입니다."),
-    MISSING_REQUIRED_TERMS(HttpStatus.BAD_REQUEST, 4031, "필수 약관에 동의하지 않았습니다."),
+    NOT_AGREED_REQUIRED_TERMS(HttpStatus.BAD_REQUEST, 4031, "필수 약관에 동의하지 않았습니다."),
 
     // 기타 에러
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5000, "서버 내부 오류가 발생했습니다.");
