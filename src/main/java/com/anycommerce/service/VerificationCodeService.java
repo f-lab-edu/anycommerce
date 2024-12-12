@@ -97,9 +97,14 @@ public class VerificationCodeService {
 
         verificationCodeRepository.save(verificationCode);
 
-        log.info("인증번호 발송: {} -> {}", phoneNumber, randomKey);
+        log.info("인증번호 발송: {} -> {}", phoneNumber, maskVerificationCode(randomKey));
 
-        // TODO: SMS 발송 로직 (외부 SMS 발송 API 호출)
+        // SMS 발송
+        if (!sendSms(phoneNumber, randomKey)) {
+            // 발송 실패 시 상태 업데이트 및 예외 처리
+            updateVerificationStatus(verificationCode, VerificationCodeResponse.VerificationStatus.FAILED);
+            throw new CustomBusinessException(ErrorCode.SMS_SEND_FAILED);
+        }
 
     }
 
@@ -241,13 +246,56 @@ public class VerificationCodeService {
         verificationCodeRepository.save(verificationCode);
     }
 
-
+    /**
+     * 블랙리스트 추가
+     *
+     * @param phoneNumber 전화번호
+     *
+     */
     @Transactional
     public void blockPhoneNumber(String phoneNumber) {
+
+        // 이미 블랙리스트에 있는지 확인
+        if (blacklistRepository.existsByPhoneNumber(phoneNumber)) {
+            log.info("이미 블랙리스트에 추가된 번호입니다: {}", phoneNumber);
+            return; // 중복 추가를 막고 반환
+        }
+
         blacklistRepository.save(new Blacklist(phoneNumber));
         log.warn("전화번호가 블랙리스트에 추가되었습니다: {}", phoneNumber);
     }
 
+    /**
+     * 인증번호 마스킹(로그용)
+     *
+     * @param randomKey 인증번호
+     *
+     */
+    private String maskVerificationCode(String randomKey) {
+        if (randomKey == null || randomKey.length() < 2) {
+            return "****"; // 유효하지 않은 인증번호는 기본 마스킹 처리
+        }
+        return randomKey.substring(0, 2) + "****"; // 앞 2자리만 노출
+    }
+
+    /**
+     * SMS 인증번호 보내기
+     *
+     * @param phoneNumber 전화번호
+     * @param randomKey 인증번호
+     *
+     */
+    public boolean sendSms(String phoneNumber, String randomKey) {
+        try {
+            // TODO: 외부 SMS 발송 API 호출
+
+            log.info("SMS 발송 성공: {}", phoneNumber);
+            return true;
+        } catch (Exception e) {
+            log.error("SMS 발송 실패: {} -> {}", phoneNumber, e.getMessage());
+            return false;
+        }
+    }
 
 }
 

@@ -5,7 +5,6 @@ import com.anycommerce.exception.ErrorCode;
 import com.anycommerce.model.dto.CommonResponse;
 import com.anycommerce.model.dto.SignUpRequestDto;
 import com.anycommerce.service.UserService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -40,11 +39,10 @@ public class UserApiController {
     }
 
 
-    // *. 최종 등록. -> 최종 엔티티 본으로 수정해야 함.
     @PostMapping("/api/register")
-    public CommonResponse<Void> registerUser(@RequestBody SignUpRequestDto request) {
+    @ResponseStatus(HttpStatus.CREATED) // 성공 시 201 Created 상태 반환
+    public void registerUser(@RequestBody SignUpRequestDto request) {
         userService.registerUser(request);
-        return buildSuccessResponse();
     }
 
     // 성공 응답 생성 메서드

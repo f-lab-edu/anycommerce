@@ -35,12 +35,14 @@ public enum ErrorCode {
     VERIFICATION_NOT_REQUESTED(HttpStatus.BAD_REQUEST, 4023, "인증 요청이 존재하지 않습니다."),
     BLACKLISTED_PHONE_NUMBER(HttpStatus.FORBIDDEN, 4024, "해당 전화번호는 더 이상 인증할 수 없습니다."),
 
+
     // 약관 관련 에러
     NOT_FOUND_TERMS(HttpStatus.NOT_FOUND, 4030, "존재하지 않는 약관입니다."),
     NOT_AGREED_REQUIRED_TERMS(HttpStatus.BAD_REQUEST, 4031, "필수 약관에 동의하지 않았습니다."),
 
     // 기타 에러
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5000, "서버 내부 오류가 발생했습니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5000, "서버 내부 오류가 발생했습니다."),
+    SMS_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 5001, "SMS 발송에 실패했습니다.");
 
     private final HttpStatus httpStatus; // Spring의 HttpStatus
     private final int code; // 프로젝트에서 정의한 에러 코드
