@@ -11,6 +11,7 @@ import com.anycommerce.repository.VerificationCodeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,7 +26,8 @@ public class VerificationCodeService {
     private final VerificationCodeRepository verificationCodeRepository;
     private final EncryptionUtil encryptionUtil;
     private final BlacklistRepository blacklistRepository;
-    private final VerificationCode verificationCode;
+    private final SmsService smsService;
+
 
     // 인증 요청 여부 확인
     public boolean isVerificationRequestExists(String phoneNumber) {
@@ -76,7 +78,7 @@ public class VerificationCodeService {
         VerificationCode verificationCode = findOrCreateVerificationCode(phoneNumber);
 
         // 발송 가능 여부 확인
-        if (!verificationCode.canSendCode()) {
+        if (verificationCode.canSendCode()) {
             throw new CustomBusinessException(ErrorCode.TOO_MANY_REQUESTS);
         }
 
@@ -100,11 +102,9 @@ public class VerificationCodeService {
         log.info("인증번호 발송: {} -> {}", phoneNumber, maskVerificationCode(randomKey));
 
         // SMS 발송
-        if (!sendSms(phoneNumber, randomKey)) {
-            // 발송 실패 시 상태 업데이트 및 예외 처리
-            updateVerificationStatus(verificationCode, VerificationCodeResponse.VerificationStatus.FAILED);
-            throw new CustomBusinessException(ErrorCode.SMS_SEND_FAILED);
-        }
+        // 수신전화 번호
+        String from = "01012345678"; // 테스트 때 바꾸는거 ㅅ으로
+        sendSms(from, phoneNumber, randomKey);
 
     }
 
@@ -130,6 +130,7 @@ public class VerificationCodeService {
         // 1. 최대 시도 초과 여부 확인
         if (verificationCode.hasExceededMaxAttempts()) {
             updateVerificationStatus(verificationCode, VerificationCodeResponse.VerificationStatus.EXPIRED);
+            blockPhoneNumber(phoneNumber); // 블랙리스트에 추가
             throw new CustomBusinessException(ErrorCode.TOO_MANY_VERIFICATION_ATTEMPTS);
         }
 
@@ -239,7 +240,7 @@ public class VerificationCodeService {
                         .attempts(0)
                         .build());
 
-        if (!verificationCode.canSendCode()) {
+        if (verificationCode.canSendCode()) {
             throw new CustomBusinessException(ErrorCode.TOO_MANY_REQUESTS);
         }
 
@@ -281,19 +282,20 @@ public class VerificationCodeService {
     /**
      * SMS 인증번호 보내기
      *
-     * @param phoneNumber 전화번호
+     * @param from 발신번호
+     * @param phoneNumber (수신) 고객 전화번호
      * @param randomKey 인증번호
      *
      */
-    public boolean sendSms(String phoneNumber, String randomKey) {
-        try {
-            // TODO: 외부 SMS 발송 API 호출
+    public void sendSms(String from, String phoneNumber, String randomKey) {
 
-            log.info("SMS 발송 성공: {}", phoneNumber);
-            return true;
-        } catch (Exception e) {
-            log.error("SMS 발송 실패: {} -> {}", phoneNumber, e.getMessage());
-            return false;
+        // 메시지 내용 구성
+        String messageText = "안녕하세요! AnyCommerce 회원 가입입니다. 인증번호는 [" + randomKey + "]입니다."; // 45자
+
+        // SmsService 를 통해 메시지 발송
+        boolean isSent = smsService.sendSms(from, phoneNumber, messageText);
+        if (!isSent) {
+            throw new CustomBusinessException(ErrorCode.SMS_SEND_FAILED);
         }
     }
 

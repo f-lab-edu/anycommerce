@@ -72,12 +72,12 @@ public class VerificationCode {
     // 발송 가능 여부 확인
     public boolean canSendCode() {
         if (attempts == 4 && lastSentAt != null) {
-            return lastSentAt.isBefore(LocalDateTime.now().minusSeconds(90)); // 1분 30초 제한
+            return !lastSentAt.isBefore(LocalDateTime.now().minusSeconds(90)); // 1분 30초 제한
         }
         if (attempts >= 5 && lastSentAt != null) {
-            return lastSentAt.isBefore(LocalDateTime.now().minusMinutes(2)); // 2분 제한
+            return !lastSentAt.isBefore(LocalDateTime.now().minusMinutes(2)); // 2분 제한
         }
-        return true; // 첫 3회는 제한 없음
+        return false; // 첫 3회는 제한 없음
     }
 
     /**

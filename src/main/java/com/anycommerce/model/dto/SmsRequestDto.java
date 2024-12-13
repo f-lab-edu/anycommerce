@@ -1,12 +1,16 @@
 package com.anycommerce.model.dto;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SmsRequestDto {
-    String type;
-    String contentType;
-    String countryCode;
-    String from;
-    String content;
-    List<MessageDto> messages;
+    private String from; // 발신 번호
+    private String to;   // 수신 번호
+    private String text; // 메시지 내용
 }
