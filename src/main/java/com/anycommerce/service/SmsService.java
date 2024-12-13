@@ -52,30 +52,31 @@ public class SmsService {
             messageService.sendOne(new SingleMessageSendingRequest(message));
 
             // 성공 로그 저장
-            SmsLog smsLog = SmsLog.builder()
-                    .to(phoneNumber)
-                    .text(messageText)
-                    .sentAt(LocalDateTime.now())
-                    .status("SUCCESS")
-                    .build();
-            smsRepository.save(smsLog);
+            saveSmsLog(from, phoneNumber, messageText, "SUCCESS");
 
             log.info("SMS 발송 성공: {} -> {}", phoneNumber, messageText);
             return true;
 
         } catch (Exception e) {
             // 실패 로그 저장
-            SmsLog smsLog = SmsLog.builder()
-                    .from(phoneNumber)
-                    .to(messageText)
-                    .sentAt(LocalDateTime.now())
-                    .status("FAILED")
-                    .build();
-            smsRepository.save(smsLog);
+            saveSmsLog(from, phoneNumber, messageText, "FAILED");
 
             log.error("SMS 발송 실패: {} -> {}", phoneNumber, e.getMessage());
             return false;
         }
     }
 
+
+    // SMS 로그 저장 메서드
+    private void saveSmsLog(String from, String to, String text, String status) {
+        SmsLog smsLog = SmsLog.builder()
+                .from(from)
+                .to(to)
+                .text(text)
+                .sentAt(LocalDateTime.now())
+                .status(status)
+                .build();
+
+        smsRepository.save(smsLog);
+    }
 }
