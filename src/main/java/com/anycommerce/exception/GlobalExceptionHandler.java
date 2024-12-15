@@ -14,25 +14,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    // IllegalArgumentException 처리
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<CommonResponse<?>> handleValidationException(MethodArgumentNotValidException ex) {
-        String errors = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .collect(Collectors.joining(", "));
-
-        return ResponseEntity.badRequest()
-                .body(CommonResponse.fromError(ErrorCode.VALIDATION_ERROR, errors));
-    }
-
-    // CustomBusinessException 처리
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<CommonResponse<?>> handleIllegalArgumentException(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest()
-                .body(CommonResponse.fromError(ErrorCode.INVALID_REQUEST, ex.getMessage()));
-    }
 
     // 기타 예외 처리
     @ExceptionHandler(Exception.class)
@@ -44,7 +25,19 @@ public class GlobalExceptionHandler {
     // 디버그용
     @ExceptionHandler(CustomBusinessException.class)
     public ResponseEntity<CommonResponse<?>> handleCustomBusinessException(CustomBusinessException ex) {
-        log.error("Handling CustomBusinessException: {}", ex.getErrorCode());
+
+        String message = ex.getMessage();
+
+        if(ex.getException() != null){
+            ex.printStackTrace();
+        }
+
+        if(ex.getConsumer() != null) {
+            ex.getConsumer().accept(message);
+        } else {
+            log.error(message);
+        }
+
         return ResponseEntity
                 .status(ex.getErrorCode().getHttpStatus())
                 .body(CommonResponse.fromError(ex.getErrorCode(), null));

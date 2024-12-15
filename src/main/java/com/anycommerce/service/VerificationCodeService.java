@@ -103,7 +103,7 @@ public class VerificationCodeService {
 
         // SMS 발송
         // 수신전화 번호
-        String from = "01012345678"; // 테스트 때 바꾸는거 ㅅ으로
+        String from = "01012345678"; // 테스트 때 바꾸는것 으로
         sendSms(from, phoneNumber, randomKey);
 
     }

@@ -1,5 +1,7 @@
 package com.anycommerce.service;
 
+import com.anycommerce.exception.CustomBusinessException;
+import com.anycommerce.exception.ErrorCode;
 import com.anycommerce.model.entity.SmsLog;
 import com.anycommerce.repository.SmsRepository;
 import jakarta.annotation.PostConstruct;
@@ -15,6 +17,7 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
+import java.util.*;
 
 
 @Slf4j
@@ -41,7 +44,7 @@ public class SmsService {
     /**
      * SMS 발송 및 로그 저장
      */
-    public boolean sendSms(String from,String phoneNumber, String messageText) {
+    public void sendSms(String from,String phoneNumber, String messageText) {
         Message message = new Message();
         message.setFrom(from); // 발신번호
         message.setTo(phoneNumber); // 수신번호
@@ -54,15 +57,14 @@ public class SmsService {
             // 성공 로그 저장
             saveSmsLog(from, phoneNumber, messageText, "SUCCESS");
 
-            log.info("SMS 발송 성공: {} -> {}", phoneNumber, messageText);
-            return true;
-
         } catch (Exception e) {
             // 실패 로그 저장
+            log.info();
             saveSmsLog(from, phoneNumber, messageText, "FAILED");
-
-            log.error("SMS 발송 실패: {} -> {}", phoneNumber, e.getMessage());
-            return false;
+            Map<String, Object> parameter = new HashMap<>();
+            parameter.put("phoneNumber", phoneNumber);
+            parameter.put("from", from);
+            throw new CustomBusinessException(ErrorCode.SMS_SEND_FAILED, e, log::info, parameter);
         }
     }
 
