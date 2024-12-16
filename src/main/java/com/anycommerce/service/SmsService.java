@@ -59,7 +59,6 @@ public class SmsService {
 
         } catch (Exception e) {
             // 실패 로그 저장
-            log.info();
             saveSmsLog(from, phoneNumber, messageText, "FAILED");
             Map<String, Object> parameter = new HashMap<>();
             parameter.put("phoneNumber", phoneNumber);

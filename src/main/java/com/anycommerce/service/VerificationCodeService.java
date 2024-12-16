@@ -293,10 +293,8 @@ public class VerificationCodeService {
         String messageText = "안녕하세요! AnyCommerce 회원 가입입니다. 인증번호는 [" + randomKey + "]입니다."; // 45자
 
         // SmsService 를 통해 메시지 발송
-        boolean isSent = smsService.sendSms(from, phoneNumber, messageText);
-        if (!isSent) {
-            throw new CustomBusinessException(ErrorCode.SMS_SEND_FAILED);
-        }
+        smsService.sendSms(from, phoneNumber, messageText);
+
     }
 
 }
