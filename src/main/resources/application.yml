@@ -21,3 +21,6 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql: trace
+jwt:
+  issuer: jypark-anycommerce-backend
+  secret_key: ${JWT_SECRET_KEY}

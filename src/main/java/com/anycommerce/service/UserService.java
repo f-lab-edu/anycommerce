@@ -117,6 +117,16 @@ public class UserService {
         return true; // 모든 필수 약관에 동의했다면 true 반환
     }
 
+
+    /**
+     *  유저 아이디로 찾기
+     * @param userId
+     */
+    public User findById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new CustomBusinessException(ErrorCode.INVALID_USER));
+    }
+
 }
 
 

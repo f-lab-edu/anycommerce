@@ -15,6 +15,18 @@ public enum ErrorCode {
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST, 4002, "입력값 검증 오류가 발생했습니다."),
     FORBIDDEN(HttpStatus.FORBIDDEN, 4003, "접근 권한이 없습니다."),
     NOT_FOUND(HttpStatus.NOT_FOUND, 4004, "요청한 자원을 찾을 수 없습니다."),
+
+    // 토큰 관련 에러
+    INVALID_SIGNATURE(HttpStatus.UNAUTHORIZED, 4101, "토큰 서명이 유효하지 않습니다."),
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, 4102, "토큰이 만료되었습니다."),
+    MALFORMED_TOKEN(HttpStatus.BAD_REQUEST, 4103, "토큰 형식이 잘못되었습니다."),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, 4104, "유효하지 않은 토큰입니다."),
+    INVALID_USER(HttpStatus.UNAUTHORIZED, 4105, "[토큰 에러] 유효하지 않은 사용자입니다."),
+    UNEXPECTED_USER(HttpStatus.UNAUTHORIZED, 4106, "[토큰 에러] 허가 받지 않은 사용자입니다."),
+    UNEXPECTED_TOKEN(HttpStatus.UNAUTHORIZED, 4107, "토큰 정보가 잘못되었습니다."),
+
+
+    // SMS 관련 에러
     TOO_MANY_REQUESTS(HttpStatus.TOO_MANY_REQUESTS, 4290, "요청이 너무 많습니다. 잠시 후 다시 시도해주세요."),
     TOO_MANY_SMS_REQUESTS(HttpStatus.TOO_MANY_REQUESTS, 4291, "SMS 요청이 너무 많습니다. 잠시 후 다시 시도해주세요."),
 
