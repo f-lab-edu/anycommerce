@@ -48,12 +48,11 @@ public class TokenProvider {
     }
 
     // JWT 토큰 유효성 검증 메소드
-    public boolean validToken(String token){
+    public void validToken(String token){
         try {
             Jwts.parser()
                     .setSigningKey(jwtProperties.getSecretKey())
                     .parseClaimsJws(token);
-            return true;
         } catch (io.jsonwebtoken.ExpiredJwtException e) {
             throw new CustomBusinessException(ErrorCode.EXPIRED_TOKEN); // 토큰 만료
         } catch (io.jsonwebtoken.SignatureException e) {
