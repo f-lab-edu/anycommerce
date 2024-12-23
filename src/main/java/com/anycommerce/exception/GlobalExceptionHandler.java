@@ -24,14 +24,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CustomBusinessException.class)
     public ResponseEntity<CommonResponse<?>> handleCustomBusinessException(CustomBusinessException ex) {
 
+        StackTraceElement[] stackTrace = ex.getStackTrace();
+
         // 에러 메시지 포맷팅
-        String formattedMessage = String.format(
+        String formattedMessage = stackTrace.length > 0 ? String.format(
                 "Error occurred at [%s.%s:%d] - %s",
                 ex.getStackTrace()[0].getClassName(),  // 클래스 이름
                 ex.getStackTrace()[0].getMethodName(), // 메서드 이름
                 ex.getStackTrace()[0].getLineNumber(), // 라인 번호
                 ex.getMessage()                        // 에러 메시지
-        );
+        ) : ex.getMessage();
 
         // 로그 출력
         if (ex.getException() != null) {
@@ -42,7 +44,17 @@ public class GlobalExceptionHandler {
 
         // Consumer 로 메시지 전달
         if (ex.getConsumer() != null) {
-            ex.getConsumer().accept(formattedMessage);
+            try {
+                ex.getConsumer().accept(formattedMessage);
+            } catch (Exception consumerEx) {
+                log.error("Error while executing consumer: {}", consumerEx.getMessage(), consumerEx);
+            }
+        }
+
+        // 사용자 응답 메시지 설정
+        String userMessage = ex.getErrorCode().getMessage();
+        if (ex.getErrorCode().name().contains("TOKEN")) {
+            userMessage = "유효하지 않은 요청입니다."; // 보안 민감 메시지 통일
         }
 
         // Response 반환
