@@ -54,7 +54,10 @@ public enum ErrorCode {
 
     // 기타 에러
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5000, "서버 내부 오류가 발생했습니다."),
-    SMS_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 5001, "SMS 발송에 실패했습니다.");
+    SMS_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 5001, "SMS 발송에 실패했습니다."),
+
+    // 이미지 에러
+    IMAGE_LOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 5002, "이미지를 불러오는 데 실패했습니다.");
 
     private final HttpStatus httpStatus; // Spring의 HttpStatus
     private final int code; // 프로젝트에서 정의한 에러 코드
