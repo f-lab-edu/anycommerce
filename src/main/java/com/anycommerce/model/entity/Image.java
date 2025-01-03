@@ -30,4 +30,6 @@ public class Image extends AbstractEntity{
     @JoinColumn(name = "product_id")
     private Product product; // 상품과의 연관 관계
 
+    private boolean isMain;
+
 }

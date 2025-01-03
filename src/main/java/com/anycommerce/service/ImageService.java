@@ -102,4 +102,21 @@ public class ImageService {
                 .toList();
     }
 
+    // 대표 이미지 가져오기
+    public ImageResponse getMainImageResponse(Long productId) {
+        List<Image> images = imageRepository.findByProductId(productId);
+        return images.stream()
+                .filter(Image::isMain) // isMain이 true인 이미지 필터링
+                .findFirst()
+                .map(image -> ImageResponse.builder()
+                        .imageUrl(image.getImageUrl())
+                        .width(image.getWidth())
+                        .height(image.getHeight())
+                        .description(image.getDescription())
+                        .format(image.getFormat())
+                        .build()
+                )
+                .orElseThrow(() -> new CustomBusinessException(ErrorCode.MAIN_IMAGE_NOT_FOUND)); // 없으면 null 반환
+    }
+
 }

@@ -57,6 +57,7 @@ public enum ErrorCode {
     SMS_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 5001, "SMS 발송에 실패했습니다."),
 
     // 이미지 에러
+    MAIN_IMAGE_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, 4050, "대표 이미지를 불러오는 데 실패했습니다."),
     IMAGE_LOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 5002, "이미지를 불러오는 데 실패했습니다.");
 
     private final HttpStatus httpStatus; // Spring의 HttpStatus
