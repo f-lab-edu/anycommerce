@@ -1,0 +1,406 @@
+{
+  "request": {
+  },
+  "response": {
+    "header": {
+      "logo": {
+        "icon": "/images/logo.jpg",
+        "url": "/main"
+      },
+      "market-type": {
+        "common": {
+          "title": "마켓컬리",
+          "url": "/main"
+        },
+        "beauty": {
+          "title": "뷰티컬리",
+          "url": "/main/beauty"
+        }
+      },
+      "search-bar": {
+        "icon": "/images/search",
+        "url": "/search?sword=검색어"
+      },
+      "right-side-shortcut": {
+        "enroll-address": {
+          "icon": "/images/address-icon.jpg",
+          "url": "/address/shipping-address/list"
+        },
+        "favorites": {
+          "icon": "/images/favorites-icon.jpg",
+          "url": "/mypage/pick/list"
+        },
+        "shopping-cart": {
+          "icon": "/images/cart-icon.jpg",
+          "url": "/cart"
+        }
+      }
+    },
+    "navigation-bar": {
+      "categories": {
+        "titles": [
+          "채소",
+          "과일",
+          "수산",
+          "정육",
+          "국",
+          "밀키트",
+          "면",
+          "생수",
+          "커피",
+          "간식",
+          "베이커리",
+          "유제품",
+          "건강식품",
+          "와인",
+          "전통주",
+          "주방용품",
+          "생활용품",
+          "가전제품",
+          "가구",
+          "유아품"
+        ],
+        "url": [
+          "categories/001",
+          "categories/002",
+          "categories/003",
+          "categories/004",
+          "categories/005",
+          "categories/006",
+          "categories/007",
+          "categories/008",
+          "categories/009",
+          "categories/010",
+          "categories/011",
+          "categories/012",
+          "categories/013",
+          "categories/014",
+          "categories/015",
+          "categories/016",
+          "categories/017",
+          "categories/018",
+          "categories/019",
+          "categories/020",
+          "categories/021"
+        ]
+      },
+      "collection-groups": {
+        "titles": [
+          "신상품",
+          "베스트",
+          " 알뜰쇼핑",
+          "특가/혜택"
+        ],
+        "url": [
+          "collection-groups/market-newproduct?page=1&collection=newranking1&filters=",
+          "collection-groups/market-best?page=1&collection=market-best-logic",
+          "collection-groups/market-sales-group?page=1&collection=market-sales-main1",
+          "/market-benefit"
+        ]
+      },
+      "user-guide-delivery": {
+        "title": "샛별.하루 배송안내",
+        "url": "/user-guide/delivery"
+      }
+    },
+    "new-year-2025-member-pass-popup-banner": {
+      "banner-image": "/image/2025-new-year-membership-promotion.jpg",
+      "Do-not-show-me-today": "false",
+      "membership-url": "/member/membership",
+      "description": "멤버스가 처음이라면 누구나 2개월 무료 시작"
+    },
+    "main-rolling-banner": {
+      "image-list": [
+        "images/rolling-banner-01.jpg",
+        "images/rolling-banner-02.jpg",
+        "images/rolling-banner-03.jpg",
+        "images/rolling-banner-04.jpg",
+        "images/rolling-banner-05.jpg",
+        "images/rolling-banner-06.jpg",
+        "images/rolling-banner-07.jpg",
+        "images/rolling-banner-08.jpg",
+        "images/rolling-banner-09.jpg",
+        "images/rolling-banner-10.jpg"
+      ],
+      "image-url": [
+        "/lego/event/2025/0101/card-benefit",
+        "/lego/event/2024/1226/early-newyeargift",
+        "/main/beauty",
+        "/categories/649",
+        "/categories/790",
+        "/collections/mzyrljne",
+        "/categories/771",
+        "/main/beauty",
+        "/categories/845",
+        "/lego/event/2024/0926/Butterhouse_s"
+      ]
+    },
+    "group1": {
+      "title": "취향 저격 새해 선물",
+      "sub-title": "실패 없는 설 인기 선물만 모았어요.",
+      "currentPage": 1,
+      "totalPages": 10,
+      "totalGoods": 40,
+      "goods": [
+        {
+          "id": 1,
+          "title": "[설화수] 윤조에센스 90ml 기획 세트(+지함보)",
+          "thumbnail-url": "/images/cosmetics/윤조90ml-set.jpg",
+          "original-price": 140000,
+          "discount-percentage": 5,
+          "current-price": 133000,
+          "comments": 90,
+          "coupon": "17%쿠폰+증정"
+        },
+        {
+          "id": 2,
+          "title": "[정관장] 홍삼정 에브리타임 소프트(30일분) (+보자기포장)",
+          "thumbnail-url": "/images/supplement/에브리타임30-선물용.jpg",
+          "original-price": 77000,
+          "discount-percentage": 15,
+          "current-price": 65450,
+          "comments": 378,
+          "left-down-info": "쇼핑백",
+          "left-down-info-image-url": "/image/layout/쇼핑백.jpg"
+        },
+        {
+          "id": 3,
+          "title": "[랑콤] (본품 대비 20% 할인 특별세트) NEW 제니피끄 얼티미트 세럼 50ml...",
+          "thumbnail-url": "/images/cosmetics/제니피끄-얼티미트-세럼-50ml-set.jpg",
+          "original-price": 288000,
+          "discount-percentage": 15,
+          "current-price": 244800,
+          "comments": 23
+        },
+        {
+          "id": 4,
+          "title": "[선물세트] 횡성축협한우 1++ 프리미엄 1호 (냉장) (예약일 수령)",
+          "thumbnail-url": "/images/meat/beef/횡성축협한우-프리미엄1호.jpg",
+          "original-price": 289000,
+          "discount-percentage": 24,
+          "current-price": 219000,
+          "comments": 130,
+          "coupon": "최대4만원쿠폰",
+          "best-offer": "최대혜택가 204,000원"
+        }
+      ]
+    },
+    "banner-ads": {
+      "image": "/images/banner-ads/2025-설날-중간-배너.jpg",
+      "url": "/main/beauty"
+    },
+    "group2": {
+      "title": "실시간 인기 랭킹",
+      "sub-title": "가장 인기 있는 상품만 모아보세요.",
+      "currentPage": 1,
+      "totalPages": 4,
+      "totalGoods": 20,
+      "goods": [
+        {
+          "id": 5,
+          "title": "[컬리X햇반] 향긋한 골든 퀸쌀밥 210g*6입",
+          "thumbnail-url": "/images/food/rice/햇반6입.jpg",
+          "discount-percentage": 40,
+          "current-price": 5980,
+          "coupon": "+1만원쿠폰"
+        },
+        {
+          "id": 6,
+          "title": "[Dole] 스위티오 바나나 1kg",
+          "thumbnail-url": "/images/fruit/Dole-바나나-1kg.jpg",
+          "discount-percentage": 27,
+          "current-price": 3990,
+          "left-down-info": "장보기특가",
+          "left-down-info-image-url": "/image/layout/장보기특가.jpg"
+        },
+        {
+          "id": 7,
+          "title": "유명산지 설향딸기 500g",
+          "thumbnail-url": "/images/fruit/설향딸기500g.jpg",
+          "discount-percentage": 33,
+          "current-price": 19900,
+          "left-down-info": "장보기특가",
+          "left-down-info-image-url": "/image/layout/장보기특가.jpg",
+          "coupon": "+10%쿠폰"
+        },
+        {
+          "id": 8,
+          "title": "[햇반/쿡반] 노릇노릇 주먹밥 500g 8종(1택)",
+          "thumbnail-url": "/images/food/rice/햇반주먹밥8종.jpg",
+          "discount-percentage": 25,
+          "current-price": 6735,
+          "coupon": "+1만원쿠폰"
+        },
+        {
+          "id": 9,
+          "title": "[귤로장생] 타이벡 감귤 2.5kg(로얄과)",
+          "thumbnail-url": "/images/fruit/타이벡감귤25.jpg",
+          "discount-percentage": 22,
+          "current-price": 19400
+        }
+      ],
+      "eventPage": {
+        "title": "전체보기",
+        "url": "/collections/ranking123"
+      }
+    },
+    "sidebar": {
+      "delivery": {
+        "image": "/images/side-bar/delivery.jpg",
+        "url": "/user-guide/delivery"
+      },
+      "extra-info": [
+        {
+          "title": "컬리 고객 제도",
+          "url": "/events/member/vip"
+        },
+        {
+          "title": "컬리 큐레이터",
+          "url": "lounge.kurly.com/curator-program/welcome"
+        },
+        {
+          "title": "레시피",
+          "url": "https://www.kurly.com/recipe?_pid=4sx6aiho"
+        },
+        {
+          "currentPage": 1,
+          "totalPages": 3,
+          "totalGoods": 10,
+          "title": "최근 본 상품",
+          "images": [
+            "/images/food/001.jpg",
+            "/images/food/002.jpg",
+            "/images/food/003.jpg",
+            "/images/food/004.jpg",
+            "/images/food/005.jpg",
+            "/images/food/006.jpg",
+            "/images/food/007.jpg",
+            "/images/food/008.jpg",
+            "/images/food/009.jpg",
+            "/images/food/010.jpg"
+          ],
+          "imagesURL": [
+            "/goods/001.jpg",
+            "/goods/002.jpg",
+            "/goods/003.jpg",
+            "/goods/004.jpg",
+            "/goods/005.jpg",
+            "/goods/006.jpg",
+            "/goods/007.jpg",
+            "/goods/008.jpg",
+            "/goods/009.jpg",
+            "/goods/010.jpg"
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "customerService": {
+        "title": "고객행복센터",
+        "service-center-number": "1644-1234",
+        "service-time": "월~토요일 오전 7시 - 오후 6시",
+        "kakao-cs": {
+          "title": "카카오톡 문의",
+          "service-time": [
+            "월~토요일 | 오전7시 - 오후6시",
+            "일/공휴일 | 오전 7시 - 오후 1시"
+          ]
+        },
+        "1-1-cs": {
+          "title": "1:1 문의",
+          "service-time": [
+            "365일",
+            "고객센터 운영시간에 순차적으로 답변드리겠습니다."
+          ]
+        },
+        "wholesale-cs": {
+          "title": "대량 구매 문의",
+          "service-time": [
+            "월~토요일 | 오전9시 - 오후6시",
+            "점심시간 | 낮 12시 - 오후 1시"
+          ]
+        }
+      },
+      "introduction": {
+        "introduction-list": [
+          "컬리소개",
+          "컬리소개영상",
+          "투자정보",
+          "인재채용",
+          "이용약관",
+          "개인정보처리방침",
+          "이용안내"
+        ],
+        "introduction-url-list": [
+          "/introduce",
+          "https://www.youtube.com/embed/WEep7BcboMQ?rel=0&showinfo=0&wmode=opaque&enablejsapi=1",
+          "https://ir.kurly.com/",
+          "https://kurly.career.greetinghr.com",
+          "/user-terms/agreement",
+          "/user-terms/privacy-policy",
+          "/user-guide"
+        ]
+      },
+      "company-information": "법인명 (상호): 주식회사 컬리",
+      "business-registration-number": "261-01-123456",
+      "business-registration-confirmation-link": "https://www.ftc.go.kr/bizCommPopView.do",
+      "business-registration-type": "통신판매업: 제 2018-서울강남-012345호",
+      "address": "서울특별시 강남구 테헤란로 100, 1층(역삼동)",
+      "CEO": "대표이사: 홍길동",
+      "recruit": "recruit@kurlycorp.com",
+      "fax": "070-1234-1234",
+      "SNS": [
+        {
+          "icon": "/images/logo/instagram.jpg",
+          "url": "instagram.com/marketkurly"
+        },
+        {
+          "icon": "/images/logo/facebook.jpg",
+          "url": "facebook.com/Marketkurly"
+        },
+        {
+          "icon": "images/logo/blogs.jpg",
+          "url": "https://blog.naver.com/marketkurly"
+        },
+        {
+          "icon": "images/logo/posts.jpg",
+          "url": "https://m.post.naver.com/marketkurly"
+        },
+        {
+          "icon": "images/logo/youtube.jpg",
+          "url": "https://youtube.com/channel/UCfpdjL5pl-1qKT7Xp4UQzQg"
+        }
+      ],
+      "certification": [
+        {
+          "icon": "/images/logo/isms.jpg",
+          "description": [
+            "[인증범위] 컬리 쇼핑몰 서비스 개발.운영",
+            "{심사받지 않은 물리적 인프라 제외}",
+            "[유효기간] 2022.01.19 ~ 2025.01.18"
+          ]
+        },
+        {
+          "icon": "/images/logo/ePrivacy-PLUS.jpg",
+          "description": [
+            "개인정보보호 우수 웹사이트",
+            "개인정보처리시스템 인증(ePRIVACY PLUS)"
+          ]
+        },
+        {
+          "icon": "/images/logo/toss-payments.jpg",
+          "description": "토스페이먼츠 구매안전(에스크로) 서비스를 이용할수 있습니다."
+        },
+        {
+          "icon": "/images/logo/우리은행.jpg",
+          "description": "고객님이 현금으로 결제한 금액에 대해 우리은행과 채무지급보증 계약을 체결하여 안전거래를 보장하고 있습니다."
+        }
+      ],
+      "customer-warning": [
+        "컬리에서 판매되는 상품 중에는 컬리에 입점한 개별 판매자가 판매하는 마켓플레이스(오픈마케) 상품이 포함되어 있습니다.",
+        "마켓플레이스(오픈마켓) 상품의 경우 컬리는 통신판매중개자로서 통신판매의 당사자가 아닙니다. 컬리는 해당 상품의 주문, 품질, 교환/환불 등 의무와 책임을 부담하지 않습니다.",
+        "KURLY CORP. ALL RIGHTS RESERVED"
+      ]
+    }
+  }
+}

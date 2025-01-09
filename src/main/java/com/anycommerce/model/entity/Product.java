@@ -2,55 +2,51 @@ package com.anycommerce.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private BigDecimal price;
-    private BigDecimal discountPrice;
+    private String name; // 상품명
+    private BigDecimal price; // 원가
+    private BigDecimal discountPrice; // 할인가
 
-    private int discountPercentage;
-    private int comments;
-    private int stockQuantity;
+    private int discountPercentage; // 할인율
+    private int comments; // 리뷰 개수
+    private int stockQuantity; // 재고 수량
 
-    private String mainImageUrl;
-    private String description;
+    private String mainImageUrl; // 대표 이미지 URL
+    private String description; // 상품 설명
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Image> images = new ArrayList<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "product_classification",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "classification_id")
-    )
-    private List<Classification> classifications = new ArrayList<>();
+    private List<Image> images = new ArrayList<>(); // 다중 이미지
 
     @Column(unique = true, nullable = false)
-    private String productId; // 사용자/외부 시스템용 고유 식별자
-
+    private String productCode; // 상품 코드 (e.g., "001001-10001")
 
     @ManyToOne
-    private Category category; // 카테고리 연관 관계
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category; // 카테고리와 연관 관계
 
-    // 생성 시 ProductID 자동 생성
+    // 연관된 컬렉션 정보 (다대다 관계 제거)
+    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    private List<ProductCollection> productCollections = new ArrayList<>();
+
+
     @PrePersist
-    private void generateProductId() {
-        if (productId == null) {
-            this.productId = category.getCategoryCode() + "-" + UUID.randomUUID().toString().substring(0, 8);
+    private void generateProductCode() {
+        if (productCode == null) {
+            this.productCode = category.getCategoryCode() + "-" + id; // 카테고리 코드 + ID로 고유 코드 생성
         }
     }
-
-
 }

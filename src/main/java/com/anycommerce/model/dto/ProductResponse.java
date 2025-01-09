@@ -27,6 +27,10 @@ public class ProductResponse {
     @Schema(description = "메인 상품 이미지 URL", example = "/images/main/098310.jpg")
     private String mainImageUrl;
 
+    private String coupon; // 쿠폰 정보 (Optional)
+    private String leftDownInfo; // 왼쪽 하단 정보 (Optional)
+    private String leftDownInfoImageUrl; // 왼쪽 하단 정보 이미지 URL (Optional)
+    private String bestOffer; // 최종 혜택가 (Optional)
 
     // 팩토리 메서드: Entity -> DTO 변환
     public static ProductResponse fromEntity(Product product) {
