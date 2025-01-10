@@ -3,6 +3,7 @@
   <component name="EntryPointsManager">
     <writeAnnotations>
       <writeAnnotation name="jakarta.persistence.JoinTable" />
+      <writeAnnotation name="jakarta.persistence.ManyToMany" />
       <writeAnnotation name="jakarta.persistence.OneToMany" />
     </writeAnnotations>
   </component>
