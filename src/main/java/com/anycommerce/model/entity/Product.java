@@ -40,7 +40,7 @@ public class Product {
     private Category category; // 카테고리와 연관 관계
 
     // 연관된 컬렉션 정보
-    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private List<ProductCollection> productCollections = new ArrayList<>();
 
 
