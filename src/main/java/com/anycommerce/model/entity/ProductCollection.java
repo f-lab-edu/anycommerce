@@ -24,4 +24,18 @@ public class ProductCollection {
 
     @OneToMany(mappedBy = "productCollection", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductCollectionItem> items = new ArrayList<>();
+
+
+    // 연관된 아이템 추가
+    public void addItem(ProductCollectionItem item) {
+        item.setProductCollection(this);
+        items.add(item);
+    }
+
+    // 연관된 아이템 제거
+    public void removeItem(ProductCollectionItem item) {
+        items.remove(item);
+        item.setProductCollection(null);
+    }
+
 }
