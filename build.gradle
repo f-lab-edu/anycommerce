@@ -31,6 +31,10 @@ dependencies {
 
     testImplementation 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.11.0-RC1"
+    testImplementation "org.testcontainers:testcontainers:1.20.4"
+    testImplementation "org.testcontainers:junit-jupiter:1.20.4"
+    testImplementation 'org.testcontainers:mysql:1.20.4'
 }
 
 test {

@@ -28,3 +28,10 @@ VALUES
     (3, '개인정보 수집 이용 동의(필수)', 1, true, NOW(), NOW()),
     (3, '마케팅 정보 활용 동의', 1, true, NOW(), NOW());
 
+
+INSERT INTO category (id, name, category_code, depths) VALUES
+(1, 'Electronics', '001', 0),
+(2, 'Books', '002', 0);
+
+INSERT INTO product (id, name, price, discount_price, stock_quantity, product_code, category_id)
+VALUES (1, 'Laptop', 1000, 900, 10, '001-001', 1);

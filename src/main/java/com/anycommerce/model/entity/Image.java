@@ -23,9 +23,6 @@ public class Image extends AbstractEntity{
     private String description;
     private String format;
 
-    @Enumerated(EnumType.STRING)
-    private ImageType type;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product; // 상품과의 연관 관계
