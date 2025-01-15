@@ -12,10 +12,9 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     // 특정 카테고리의 상품 조회
-    @Query("SELECT p FROM Product p WHERE p.subCategory.id = :subCategoryId")
-    List<Product> findBySubCategory(@Param("subCategoryId") Long subCategoryId);
+    List<Product> findByCategoryId(Long categoryId);
 
     // 특정 컬렉션의 상품 조회
-    @Query("SELECT p FROM Product p JOIN p.productCollections pc WHERE pc.id = :collectionId")
+    @Query("SELECT p FROM Product p JOIN ProductCollectionItem pci ON p.id = pci.product.id WHERE pci.productCollection.id = :collectionId")
     List<Product> findByCollectionId(@Param("collectionId") Long collectionId);
 }

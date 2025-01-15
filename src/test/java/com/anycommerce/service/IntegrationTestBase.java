@@ -11,11 +11,11 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @SpringBootTest
 public class IntegrationTestBase {
     @Container
-    private static final MySQLContainer<?> mysqlContainer = new MySQLContainer<>("mysql:8.4.3")
+    private static final MySQLContainer<?> mysqlContainer = new MySQLContainer<>("mysql:8.0.4")
             .withDatabaseName("testdb")
             .withUsername("testuser")
-            .withPassword("testpass")
-            .withInitScript("data.sql"); // 초기 데이터 삽입용 스크립트
+            .withPassword("testpass");
+//            .withInitScript("data.sql"); // 초기 데이터 삽입용 스크립트
 
     @DynamicPropertySource
     static void registerProperties(DynamicPropertyRegistry registry) {

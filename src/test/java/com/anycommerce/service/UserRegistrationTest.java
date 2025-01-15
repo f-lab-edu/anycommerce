@@ -1,11 +1,12 @@
 package com.anycommerce.service;
 
 
+import com.anycommerce.model.dto.BannerResponse;
 import com.anycommerce.model.dto.CommonResponse;
 import com.anycommerce.model.dto.SignUpRequestDto;
-import com.anycommerce.model.entity.User;
-import com.anycommerce.repository.UserRepository;
-import com.anycommerce.repository.VerificationCodeRepository;
+import com.anycommerce.model.entity.*;
+import com.anycommerce.repository.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,6 +35,18 @@ public class UserRegistrationTest extends IntegrationTestBase{
     private UserRepository userRepository;
 
     @Autowired
+    private TermsRepository termsRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private BannerRepository bannerRepository;
+
+    @Autowired
     private VerificationCodeService verificationCodeService;
 
     @Autowired
@@ -40,6 +54,58 @@ public class UserRegistrationTest extends IntegrationTestBase{
 
     @MockBean
     private SmsService smsService;
+
+    @BeforeEach
+    void setUp() {
+        // 1. 약관 데이터 삽입
+        Terms terms1 = new Terms();
+        terms1.setId(new TermsId("Privacy Policy", 1));
+        terms1.setContent("This is the privacy policy.");
+        terms1.setRequired(true);
+        terms1.setActive(true);
+
+        Terms terms2 = new Terms();
+        terms2.setId(new TermsId("Terms of Service", 1));
+        terms2.setContent("These are the terms of service.");
+        terms2.setRequired(true);
+        terms2.setActive(true);
+
+        termsRepository.save(terms1);
+        termsRepository.save(terms2);
+
+        // 2. 카테고리 데이터 삽입
+        Category electronics = new Category();
+        electronics.setName("Electronics");
+        electronics.setCategoryCode("001");
+        electronics.setDepths(0);
+
+        categoryRepository.save(electronics);
+
+        // 3. 상품 데이터 삽입
+        Product product = new Product();
+        product.setName("Laptop");
+        product.setPrice(BigDecimal.valueOf(1000));
+        product.setDiscountPrice(BigDecimal.valueOf(900));
+        product.setDiscountPercentage(10);
+        product.setStockQuantity(50);
+        product.setMainImageUrl("http://example.com/laptop.png");
+        product.setDescription("High-performance laptop");
+        product.setCategory(electronics);
+
+        productRepository.save(product);
+
+        // 4. 배너 데이터 삽입
+        Banner banner = new Banner();
+        banner.setImageUrl("http://example.com/banner.png");
+        banner.setLinkUrl("http://example.com/promotion");
+        banner.setDescription("Promotional Banner");
+        banner.setActive(true);
+        banner.setOrderIndex(1);
+        banner.setDisplayDuration(10);
+
+        bannerRepository.save(banner);
+    }
+
 
     @Test
     void testUserRegistration(){

@@ -29,4 +29,10 @@ public class Image extends AbstractEntity{
 
     private boolean isMain;
 
+    public void setProduct(Product product) {
+        this.product = product;
+        if (product != null && !product.getImages().contains(this)) {
+            product.getImages().add(this);
+        }
+    }
 }

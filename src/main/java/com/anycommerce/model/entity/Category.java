@@ -1,15 +1,19 @@
 package com.anycommerce.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-public class Category {
+@Setter
+public class Category extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,11 +27,11 @@ public class Category {
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
-    @JsonIgnore // 순환 참조 방지
+    @JsonBackReference
     private Category parent; // 상위 카테고리
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore // 순환 참조 방지
+    @JsonManagedReference
     private List<Category> children = new ArrayList<>(); // 하위 카테고리 목록
 
     public boolean isTopLevel() {

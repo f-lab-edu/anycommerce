@@ -6,7 +6,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
@@ -21,7 +21,7 @@ logging:
   level:
     org.hibernate: DEBUG
     org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql: trace
+    org.hibernate.type: trace
 jwt:
   issuer: jypark-anycommerce-backend
   secret_key: ${JWT_SECRET_KEY}

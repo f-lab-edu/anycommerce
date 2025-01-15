@@ -3,16 +3,17 @@ package com.anycommerce.model.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
-public class Product {
+public class Product extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,16 +40,22 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category; // 카테고리와 연관 관계
 
-    // 연관된 컬렉션 정보
-    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
-    private List<ProductCollection> productCollections = new ArrayList<>();
-
 
     @PostPersist
     private void generateProductCode() {
         if (productCode == null) {
             this.productCode = category.getCategoryCode() + "-" + id; // 카테고리 코드 + ID로 고유 코드 생성
         }
+    }
+
+    public void addImage(Image image) {
+        this.images.add(image);
+        image.setProduct(this);
+    }
+
+    public void removeImage(Image image) {
+        this.images.remove(image);
+        image.setProduct(null);
     }
 
 }

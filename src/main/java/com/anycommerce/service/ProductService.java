@@ -18,8 +18,8 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     // 카테고리 기반 상품 조회
-    public ProductListResponse getProductsByCategory(Long subCategoryId) {
-        List<Product> products = productRepository.findBySubCategory(subCategoryId);
+    public ProductListResponse getProductsByCategory(Long categoryId) {
+        List<Product> products = productRepository.findByCategoryId(categoryId);
         List<ProductResponse> productResponses = products.stream()
                 .map(ProductResponse::fromEntity)
                 .toList();
