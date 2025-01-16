@@ -37,9 +37,8 @@ VALUES
 (3, 'Laptops', '001-001', 1, 1, NOW(), NOW());
 
 -- Product 테이블 초기 데이터
-INSERT INTO product (id, name, price, discount_price, stock_quantity, product_code, category_id, created_at, updated_at)
-VALUES
-    (1, 'Laptop', 1000.00, 900.00, 10, '001-001', 1, NOW(), NOW()));
+INSERT INTO product (id, name, price, discount_price, discount_percentage, stock_quantity, main_image_url, description, product_code, category_id, comments, created_at, updated_at)
+VALUES (1, 'Laptop', 1000.00, 900.00, 10, 10, 'default_image_url', 'Default description', '001-001', 1, 0, NOW(), NOW());
 
 -- Image 테이블 초기 데이터
 INSERT INTO image (id, image_url, width, height, description, format, product_id, is_main, created_at, updated_at)
@@ -48,11 +47,11 @@ VALUES
     (2, 'http://example.com/laptop2.png', 800, 600, 'Side view of Laptop', 'png', 1, false, NOW(), NOW());
 
 -- ProductCollection 테이블 초기 데이터
-INSERT INTO product_collection (id, name, title, sub_title, is_dynamic, created_at, updated_at)
+INSERT INTO product_collection (id, name, title, sub_title, is_dynamic)
 VALUES
-    (1, 'New Arrivals', 'New Products', 'Check out our new products!', false, NOW(), NOW());
+    (1, 'New Arrivals', 'New Products', 'Check out our new products!', false);
 
 -- ProductCollectionItem 테이블 초기 데이터
-INSERT INTO product_collection_item (collection_id, product_id, display_order)
+INSERT INTO product_collection_item (product_collection_id, product_id, display_order)
 VALUES
     (1, 1, 1);
