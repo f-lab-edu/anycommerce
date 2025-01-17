@@ -6,9 +6,13 @@ import com.anycommerce.model.dto.CommonResponse;
 import com.anycommerce.model.dto.SignUpRequestDto;
 import com.anycommerce.model.entity.*;
 import com.anycommerce.repository.*;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
@@ -16,16 +20,19 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
+@ActiveProfiles("test")
+@Slf4j
 public class UserRegistrationTest extends IntegrationTestBase{
 
     @Autowired
@@ -35,93 +42,42 @@ public class UserRegistrationTest extends IntegrationTestBase{
     private UserRepository userRepository;
 
     @Autowired
-    private TermsRepository termsRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private BannerRepository bannerRepository;
-
-    @Autowired
-    private VerificationCodeService verificationCodeService;
-
-    @Autowired
     private VerificationCodeRepository verificationCodeRepository;
 
     @MockBean
     private SmsService smsService;
 
+    @MockBean
+    private VerificationCodeService verificationCodeService;
+
     @BeforeEach
     void setUp() {
-        // 1. 약관 데이터 삽입
-        Terms terms1 = new Terms();
-        terms1.setId(new TermsId("Privacy Policy", 1));
-        terms1.setContent("This is the privacy policy.");
-        terms1.setRequired(true);
-        terms1.setActive(true);
-
-        Terms terms2 = new Terms();
-        terms2.setId(new TermsId("Terms of Service", 1));
-        terms2.setContent("These are the terms of service.");
-        terms2.setRequired(true);
-        terms2.setActive(true);
-
-        termsRepository.save(terms1);
-        termsRepository.save(terms2);
-
-        // 2. 카테고리 데이터 삽입
-        Category electronics = new Category();
-        electronics.setName("Electronics");
-        electronics.setCategoryCode("001");
-        electronics.setDepths(0);
-
-        categoryRepository.save(electronics);
-
-        // 3. 상품 데이터 삽입
-        Product product = new Product();
-        product.setName("Laptop");
-        product.setPrice(BigDecimal.valueOf(1000));
-        product.setDiscountPrice(BigDecimal.valueOf(900));
-        product.setDiscountPercentage(10);
-        product.setStockQuantity(50);
-        product.setMainImageUrl("http://example.com/laptop.png");
-        product.setDescription("High-performance laptop");
-        product.setCategory(electronics);
-
-        productRepository.save(product);
-
-        // 4. 배너 데이터 삽입
-        Banner banner = new Banner();
-        banner.setImageUrl("http://example.com/banner.png");
-        banner.setLinkUrl("http://example.com/promotion");
-        banner.setDescription("Promotional Banner");
-        banner.setActive(true);
-        banner.setOrderIndex(1);
-        banner.setDisplayDuration(10);
-
-        bannerRepository.save(banner);
+        when(verificationCodeService.isVerificationRequestExists(anyString())).thenReturn(true);
+        when(verificationCodeService.isVerificationCodeValid(anyString(), anyString())).thenReturn(true);
+        when(verificationCodeService.isVerificationCodeExpired(anyString())).thenReturn(false);
     }
 
-
     @Test
+    @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
     void testUserRegistration(){
         // given : 회원 가입 요청 데이터
         String phoneNumber = "010-1234-5678";
         String verificationCode = "123456";
 
         // Mock: SMS 발송 로직 우회
-        doNothing().when(smsService).sendSms(anyString(), eq(phoneNumber), eq(verificationCode));
+        doNothing().when(smsService).sendSms(anyString(), eq(phoneNumber), anyString());
+//        doNothing().when(verificationCodeService).sendSms(anyString(), anyString(), anyString());
 
         // Step 1: 인증번호 생성 및 발송
         ResponseEntity<CommonResponse<Void>> generateResponse = restTemplate.exchange(
-                "/api/verification/generate",
+                "/api/verification/send",
                 HttpMethod.POST,
                 new HttpEntity<>(phoneNumber),
                 new ParameterizedTypeReference<>() {});
+
+        log.info("Response status: {}", generateResponse.getStatusCode());
+        log.debug("Response body: {}", generateResponse.getBody());
+
         assertThat(generateResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(generateResponse.getBody()).isNotNull();
         assertThat(generateResponse.getBody().getErrorCode()).isEqualTo(0);
