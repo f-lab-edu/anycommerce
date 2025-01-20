@@ -1,0 +1,63 @@
+{
+  "url": "https://www.kurly.com/goods/1000171544",
+  "request": {
+    "url": "/goods/{goodsId(catagoryId + productId)}"
+  },
+  "response": {
+    "images": [
+      {
+        "id": 1,
+        "imageUrl": "product/화장품_설화수.png",
+        "description": "3종세트",
+        "isMain": true,
+        "width": 800,
+        "height": 600,
+        "format": "png"
+      },
+      {
+        "id": 2,
+        "imageUrl": "product/화장품_설화수.png",
+        "description": "화장품_설화수 옆면",
+        "isMain": false,
+        "width": 800,
+        "height": 600,
+        "format": "png"
+      }
+    ],
+    "delivery_type": "샛별배송",
+    "brand_name": "설화수",
+    "brand_link": "https://www.kurly.com/collections/brand-sws?screen_name=brand_product_list",
+    "product_name": "[설화수] 탄력 3종 세트",
+    "description": "촉촉하게 탄력 있는 피부를 가꾸는 세트",
+    "discount_percentage": "10",
+    "original_price": "190000",
+    "current_price": "171000",
+    "first_payment_coupon": {
+      "description": "첫 구매라면 10,000원 즉시 할인",
+      "url": "https://www.kurly.com/shop/event/kurlyEventV2.php?lego=event/2023/0911/join/coupon"
+    },
+    "event_coupon": {
+      "description": "설화수 최대 17% 쿠폰 + 증정이벤트",
+      "url": "https://www.kurly.com/categories/523"
+    },
+    "delivery_info": "샛별배송\\n23시 전 주문 시 수도권/충청 내일 아침 7시 전 도착\\n(그 외 지역 아침 8시 전 도착)",
+    "seller": "컬리",
+    "packing_type": "상온(종이포장)\\n택배배송은 에코 포장이 스티로폼으로 대체됩니다.",
+    "extra_info": "*증정품과 쇼핑백은 소진 시 내용이 변겨오디거나 조기 종료될 수 있습니다.\\n*쇼핑백이 필요한 경우 쇼핑 백 증정 상품을 구입해주세요.",
+    "select_product": [
+      {
+        "option_sequence": "1",
+        "product_name": "설화수 3종세트 지함보 포장 쇼핑백 증정",
+        "original_price": "190000",
+        "current_price": "171000"
+      },
+      {
+        "option_sequence": "2",
+        "product_name": "설화수 3종세트 지함보 포장 쇼핑백 미증정",
+        "original_price": "190000",
+        "current_price": "171000"
+      }
+    ],
+    "add_cart": "/api/cart/add"
+  }
+}
