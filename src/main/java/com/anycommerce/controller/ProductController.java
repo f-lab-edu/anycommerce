@@ -1,15 +1,9 @@
 package com.anycommerce.controller;
 
 import com.anycommerce.model.dto.CommonResponse;
+import com.anycommerce.model.dto.ProductDetailResponse;
 import com.anycommerce.model.dto.ProductListResponse;
-import com.anycommerce.model.dto.ProductResponse;
-import com.anycommerce.model.entity.Product;
 import com.anycommerce.service.ProductService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,5 +37,20 @@ public class ProductController {
         ProductListResponse response = productService.getProductsByCollection(collectionId);
         return CommonResponse.success(response);
     }
+
+
+    /**
+     * 특정 컬렉션 상품 조회
+     *
+     * @param id 상품 ID
+     * @return 해당 컬렉션의 상품 리스트
+     */
+    @GetMapping("/{productId}")
+    public ProductDetailResponse getProductDetail(@PathVariable Long id) {
+        return productService.getProductDetail(id);
+    }
+
+
+
 
 }

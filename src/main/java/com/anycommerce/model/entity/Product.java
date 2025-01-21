@@ -30,6 +30,12 @@ public class Product extends AbstractEntity {
     private String mainImageUrl; // 대표 이미지 URL
     private String description; // 상품 설명
 
+    private String brandName; // 브랜드명
+    private String deliveryType; // 배송 타입 (e.g., "샛별배송")
+    private String deliveryInfo; // 배송 정보
+    private String packingType; // 포장 타입
+    private String extraInfo; // 추가 정보
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>(); // 다중 이미지
 
@@ -57,5 +63,9 @@ public class Product extends AbstractEntity {
         this.images.remove(image);
         image.setProduct(null);
     }
+
+    @ElementCollection
+    @CollectionTable(name = "product_options", joinColumns = @JoinColumn(name = "product_id"))
+    private List<ProductOption> options = new ArrayList<>(); // 옵션 리스트
 
 }
