@@ -1,0 +1,45 @@
+{
+  "cartId": 12345,
+  "userId": "testUser",
+  "totalItems": 3,
+  "totalPrice": 500000,
+  "deliveryPrice": 0,
+  "discountPrice": 50000,
+  "deliveryAddress": {
+    "zipcode": "12345",
+    "streetAddress": "서울특별시 강남구 테헤란로 123",
+    "detailAddress": "101호"
+  },
+  "items": [
+    {
+      "itemId": 1,
+      "productId": 1001,
+      "productName": "설화수 탄력 3종 세트",
+      "quantity": 2,
+      "totalPrice": 342000,
+      "discountAmount": 10000,
+      "productOptions": [
+        {
+          "optionName": "포장",
+          "optionValue": "지함보 포장",
+          "additionalPrice": 0
+        }
+      ]
+    },
+    {
+      "itemId": 2,
+      "productId": 1002,
+      "productName": "에센셜 로션",
+      "quantity": 1,
+      "totalPrice": 108000,
+      "discountAmount": 5000,
+      "productOptions": {
+        "optionName": "포장",
+        "optionValue": "지함보 미포장",
+        "additionalPrice": 0
+      }
+    }
+  ],
+  "orderButton": "/api/order/proceed/{orderNumber}"
+
+}

@@ -1,9 +1,7 @@
 package com.anycommerce.model.entity;
 
 import jakarta.persistence.Embeddable;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -11,9 +9,12 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProductOption {
     private String optionSequence; // 옵션 순서
-    private String productName; // 옵션 이름
-    private BigDecimal originalPrice; // 원가
-    private BigDecimal currentPrice; // 현재가
+    private String optionName; // 옵션 이름 (예: "포장")
+    private String optionDescription; // 옵션 설명 (예: "ㅁㅁ 포장")
+    private BigDecimal additionalPrice; // 옵션에 따른 추가 가격 (0원일 수도 있음)
+
 }
