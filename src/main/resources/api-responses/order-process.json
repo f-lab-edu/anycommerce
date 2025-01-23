@@ -1,0 +1,53 @@
+{
+  "orderId": 12345,
+  "userId": "testUser",
+  "orderDate": "2025-01-23T10:00:00",
+  "totalPrice": 500000,
+  "couponDiscountPrice": 10000,
+  "deliveryPrice": 0,
+  "cardDiscountPrice": 0,
+  "receivedPoints": 0,
+  "buyerInfo": {
+    "buyerName": "홍길동",
+    "phoneNumber": "010-1234-1234",
+    "email": "honggil12@mail.com"
+  },
+  "deliveryAddress": {
+    "zipcode": "12345",
+    "streetAddress": "서울특별시 강남구 테헤란로 123",
+    "detailAddress": "101호"
+  },
+  "deliveryRequest": {
+    "receiverName": "홍길동",
+    "phoneNumber": "010-1234-1234",
+    "received-location": "문 앞",
+    "apt-lock-password": "12341234",
+    "received-message-call": "배송 직후"
+  },
+  "couponInfo": {
+    "couponName": "첫 할인 10000원 쿠폰",
+    "deductAmount": 10000
+  },
+  "items": [
+    {
+      "itemId": 1,
+      "productId": 1001,
+      "productName": "설화수 탄력 3종 세트",
+      "quantity": 2,
+      "totalPrice": 342000,
+      "discountPrice": 10000,
+      "productOptions": [
+        {
+          "optionName": "포장",
+          "optionValue": "지함보 포장"
+        }
+      ]
+    }
+  ],
+  "payment": {
+    "method": "신용카드-국민",
+    "installment": 0,
+    "card-info": "0000-0000-0000-0000"
+  },
+  "orderStatus": "COMPLETE"
+}
