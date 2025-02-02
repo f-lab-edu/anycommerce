@@ -40,10 +40,10 @@ public class ProductController {
 
 
     /**
-     * 특정 컬렉션 상품 조회
+     * 상품 상세 페이지 조회
      *
      * @param id 상품 ID
-     * @return 해당 컬렉션의 상품 리스트
+     * @return 상품 상세 페이지 조회
      */
     @GetMapping("/{productId}")
     public ProductDetailResponse getProductDetail(@PathVariable Long id) {
