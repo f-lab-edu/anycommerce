@@ -32,7 +32,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
-@Slf4j
+
 public class UserRegistrationTest extends IntegrationTestBase{
 
     @Autowired
@@ -74,9 +74,6 @@ public class UserRegistrationTest extends IntegrationTestBase{
                 HttpMethod.POST,
                 new HttpEntity<>(phoneNumber),
                 new ParameterizedTypeReference<>() {});
-
-        log.info("Response status: {}", generateResponse.getStatusCode());
-        log.debug("Response body: {}", generateResponse.getBody());
 
         assertThat(generateResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(generateResponse.getBody()).isNotNull();

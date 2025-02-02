@@ -37,6 +37,6 @@ public class ProductDetailResponse {
         private String optionSequence; // 옵션 순서
         private String productName; // 옵션명
         private BigDecimal originalPrice; // 옵션의 원가
-        private BigDecimal currentPrice; // 옵션의 할인가
+        private BigDecimal currentPrice; // 할인가 적용된 옵션 최종가격
     }
 }

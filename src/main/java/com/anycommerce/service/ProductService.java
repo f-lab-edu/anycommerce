@@ -68,7 +68,7 @@ public class ProductService {
                 .options(product.getOptions().stream()
                         .map(option -> ProductDetailResponse.ProductOptionResponse.builder()
                                 .optionSequence(option.getOptionSequence())
-                                .productName(option.getProductName())
+                                .productName(option.getOptionName())
                                 .originalPrice(option.getOriginalPrice())
                                 .currentPrice(option.getCurrentPrice())
                                 .build())
