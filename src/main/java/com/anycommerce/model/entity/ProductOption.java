@@ -18,8 +18,4 @@ public class ProductOption {
     private BigDecimal originalPrice; // 옵션 원가
     private BigDecimal currentPrice; // 옵션 적용 현재 가격
 
-    private BigDecimal additionalPrice; // 옵션에 따른 추가 가격 (0원일 수도 있음)
-
-
-
 }

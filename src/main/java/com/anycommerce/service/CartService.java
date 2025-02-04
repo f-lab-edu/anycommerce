@@ -96,7 +96,7 @@ public class CartService {
                 .map(option -> ProductOption.builder()
                         .optionName(option.getOptionName())
                         .optionDescription(option.getOptionValue()) // optionValue를 optionDescription으로 사용
-                        .additionalPrice(BigDecimal.ZERO) // 기본값 설정, 필요에 따라 조정 가능
+                        .originalPrice(BigDecimal.ZERO) // 기본값 설정, 필요에 따라 조정 가능
                         .build())
                 .toList();
     }

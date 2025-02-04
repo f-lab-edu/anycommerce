@@ -26,7 +26,7 @@ public class Order extends AbstractEntity{
 
     private LocalDateTime orderDate; // 주문 날짜
     private BigDecimal totalPrice; // 총 주문 금액
-    private BigDecimal couponDiscountPrice; // 쿠폰 할인 금액
+    private BigDecimal discountPrice; // 할인 금액
     private BigDecimal deliveryPrice; // 배송비
     private BigDecimal cardDiscountPrice; // 카드 할인 금액
     private int receivedPoints; // 적립된 포인트
@@ -41,6 +41,6 @@ public class Order extends AbstractEntity{
     private Payment payment; // 결제 정보
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status; // 주문 상태
+    private OrderStatus orderStatus; // 주문 상태
 
 }

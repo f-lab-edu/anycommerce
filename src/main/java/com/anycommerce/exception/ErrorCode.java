@@ -58,7 +58,10 @@ public enum ErrorCode {
 
     // 이미지 에러
     MAIN_IMAGE_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, 4050, "대표 이미지를 불러오는 데 실패했습니다."),
-    IMAGE_LOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 5002, "이미지를 불러오는 데 실패했습니다.");
+    IMAGE_LOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 5002, "이미지를 불러오는 데 실패했습니다."),
+
+    // 주문 에러
+    ORDER_CANNOT_BE_CANCELLED(HttpStatus.BAD_REQUEST, 4100, "해당 주문을 취소할 수 없습니다.");
 
     private final HttpStatus httpStatus; // Spring의 HttpStatus
     private final int code; // 프로젝트에서 정의한 에러 코드
