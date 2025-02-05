@@ -1,0 +1,54 @@
+name: CI/CD for AWS ECR
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 푸시될 때 실행
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v3
+
+      - name: Java 17 환경 설정 (Corretto)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+
+      - name: Gradle 빌드 실행
+        run: |
+          chmod +x gradlew
+          ./gradlew build --no-daemon
+
+  docker:
+    needs: build
+    runs-on: ubuntu-latest
+    if: env.AWS_ACCESS_KEY_ID != ''  # AWS Access Key가 설정되지 않으면 실행하지 않음
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v3
+
+      - name: AWS 로그인 설정
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2  # AWS 리전 (서울)
+
+      - name: ECR 로그인
+        run: |
+          aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+
+      - name: Docker 이미지 빌드 및 태깅
+        run: |
+          docker build -t my-app .
+          docker tag my-app ${{ secrets.ECR_REGISTRY }}/my-app:latest
+
+      - name: Docker 이미지 ECR로 푸시
+        run: |
+          docker push ${{ secrets.ECR_REGISTRY }}/my-app:latest
