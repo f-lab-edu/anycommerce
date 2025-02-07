@@ -35,6 +35,7 @@ public class Order extends AbstractEntity{
     private DeliveryAddress deliveryAddress; // 배송지 정보
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<OrderItem> items = new ArrayList<>(); // 주문 아이템 리스트
 
     @Embedded

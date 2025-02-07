@@ -23,6 +23,7 @@ public class ProductCollection {
     private boolean isDynamic; // 동적 생성 여부 (예: 매출 랭킹, 최근 추가된 상품 등)
 
     @OneToMany(mappedBy = "productCollection", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<ProductCollectionItem> collectionItems  = new ArrayList<>(); // 콜렉션에 포함된 상품 목록
 
 

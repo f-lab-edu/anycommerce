@@ -32,6 +32,7 @@ public class OrderItem {
     private BigDecimal discountPrice; // 할인 금액
 
     @ElementCollection
+    @Builder.Default
     private List<ProductOption> productOptions = new ArrayList<>(); // 상품 옵션
 
     public static OrderItem fromCartItem(CartItem cartItem) {

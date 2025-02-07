@@ -2,7 +2,6 @@ package com.anycommerce.model.dto;
 
 import com.anycommerce.model.entity.Cart;
 import com.anycommerce.model.entity.CartItem;
-import com.anycommerce.model.entity.ProductOption;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -66,7 +65,7 @@ public class CartResponse {
                             .map(option -> ProductOptionResponse.builder()
                                     .optionName(option.getOptionName())
                                     .optionDescription(option.getOptionDescription())
-                                    .additionalPrice(option.getAdditionalPrice())
+                                    .additionalPrice(option.getOriginalPrice())
                                     .build())
                             .toList())
                     .build();
