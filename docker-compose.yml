@@ -15,7 +15,7 @@ services:
       - db-data:/var/lib/mysql
 
   app:
-    image: my-app:latest
+    image: "${ECR_REGISTRY}/my-app:latest"
     restart: always
     environment:
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
@@ -24,6 +24,9 @@ services:
       COOLSMS_API_KEY: ${COOLSMS_API_KEY}
       COOLSMS_API_SECRET: ${COOLSMS_API_SECRET}
       ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      ECR_REGISTRY: ${ECR_REGISTRY}
     depends_on:
       - db
     ports:
