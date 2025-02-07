@@ -13,6 +13,15 @@ jobs:
       - name: 코드 체크아웃
         uses: actions/checkout@v3
 
+      - name: 환경 변수 파일(.env) 생성
+        run: |
+          echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
+          echo "SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}" >> .env
+          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> .env
+          echo "coolsms-api-key=${{ secrets.coolsms-api-key }}" >> .env
+          echo "coolsms-api-secret=${{ secrets.coolsms-api-secret }}" >> .env
+          echo "encryption_key=${{ secrets.encryption_key }}" >> .env
+
       - name: Java 17 환경 설정 (Corretto)
         uses: actions/setup-java@v3
         with:
@@ -32,6 +41,15 @@ jobs:
     steps:
       - name: 코드 체크아웃
         uses: actions/checkout@v3
+
+      - name: 환경 변수 파일(.env) 생성
+        run: |
+          echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
+          echo "SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}" >> .env
+          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> .env
+          echo "coolsms-api-key=${{ secrets.coolsms-api-key }}" >> .env
+          echo "coolsms-api-secret=${{ secrets.coolsms-api-secret }}" >> .env
+          echo "encryption_key=${{ secrets.encryption_key }}" >> .env
 
       - name: AWS 로그인 설정
         uses: aws-actions/configure-aws-credentials@v2
