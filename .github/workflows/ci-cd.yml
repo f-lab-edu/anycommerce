@@ -62,11 +62,11 @@ jobs:
       - name: Docker 이미지 빌드 및 태깅
         run: |
           docker build -t my-app .
-          docker tag my-app ${{ secrets.ECR_REGISTRY }}/my-app:latest
+          docker tag my-app ${{ secrets.ECR_REGISTRY }}:latest
 
       - name: Docker 이미지 ECR로 푸시
         run: |
-          docker push ${{ secrets.ECR_REGISTRY }}/my-app:latest
+          docker push ${{ secrets.ECR_REGISTRY }}:latest
 
       - name: 환경 변수 파일 삭제 (보안 강화)
         run: rm -f .env
