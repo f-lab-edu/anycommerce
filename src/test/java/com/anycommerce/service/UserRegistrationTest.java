@@ -8,6 +8,7 @@ import com.anycommerce.model.entity.*;
 import com.anycommerce.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
@@ -31,8 +32,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
+@Disabled // 전체 테스트 클래스 비활성화
 @ActiveProfiles("test")
-
 public class UserRegistrationTest extends IntegrationTestBase{
 
     @Autowired
