@@ -36,6 +36,9 @@ jobs:
           chmod +x gradlew
           ./gradlew build --no-daemon
 
+      - name: 빌드 결과 확인
+        run: ls -R build/libs/
+
   docker:
     needs: build
     runs-on: ubuntu-latest
