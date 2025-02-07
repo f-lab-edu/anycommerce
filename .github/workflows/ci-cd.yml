@@ -45,9 +45,6 @@ jobs:
       - name: 코드 체크아웃
         uses: actions/checkout@v3
 
-      - name: `.env` 파일 다시 불러오기
-        run: cat .env
-
       - name: AWS 로그인 설정
         uses: aws-actions/configure-aws-credentials@v2
         with:
