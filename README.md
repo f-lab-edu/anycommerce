@@ -15,8 +15,27 @@
 12. 주문 마무리 및 CI-CD 구축해보기 (2025-02-03 ~ ) (최종목표: AWS ECR 배포 )
 13. 프로젝트 종료
 * 프로젝트 docker 실행 시 필요한 것
-- 당연히 Docker 필요
-- ECR 연결 Credential 제일 처음 유지 (AWS CLI)
+- .env에 필요한 환경변수:
+---
+MYSQL_ROOT_PASSWORD
+MYSQL_USER
+MYSQL_PASSWORD
+MYSQL_DATABASE
+SPRING_DATASOURCE_URL
+JWT_SECRET_KEY
+COOLSMS_API_KEY
+COOLSMS_API_SECRET
+ENCRYPTION_KEY
+AWS_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY
+ECR_REGISTRY
+---
+  * coolsms api 키
+  * encryption key - 비밀번호 암호화에 필요한 요소
+  * jwt_secret_key - jwt 발급할때 필요한 시크릿 키 (사용자가 임의로 만들면 된다. 32bit이므로 32자 권고)
+- Docker 필요
+- ECR 연결
+- ECR 필요한 작업 엑세스 키 , 엑세스 비밀 키, 초기 토큰 인증(AWS CLI)
 - 그냥 로컬에서 실행 시(ECR pull 안하고 단순 구동) docker-compose.overrated.yml 유지, 필요 없을 시 삭제.
 ---
 3번 작업들
